@@ -256,9 +256,9 @@
                 <select id="shiftSelect"></select>
                 <select id="locationSelect"></select>
                 <select id="taskSelect"></select>
-                <input type="text" id="noteInput">
                 <input type="text" id="supervisorInput" required>
                 <input type="text" id="studentsInput" required>
+                <input type="text" id="noteInput">
             </div>
 
             <div class="upload-section">
@@ -295,7 +295,7 @@
                 fileCountText: (count) => `تم التقاط ${count} صورة من أصل 10`,
                 msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
-                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
+                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف وأسماء الطلاب المشرفين.",
                 msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
                 shifts: [
                     { val: "", text: "اختر الدوام", disabled: true },
@@ -348,7 +348,7 @@
                 fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
                 msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
-                msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
+                msgFillFields: "Lütfen gözetmen adı ve öğrenci adları dahil tüm zorunlu alanları doldurun.",
                 msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
                 shifts: [
                     { val: "", text: "Vardiya Seçin", disabled: true },
@@ -522,7 +522,6 @@
             });
         }
 
-        // دالة إرسال النموذج المربوطة بزر الإرسال
         async function submitAssessment() {
             const t = translations[currentLang];
             const submitBtn = document.getElementById("submitBtn");
@@ -532,7 +531,7 @@
             const task = document.getElementById("taskSelect").value;
             const supervisor = document.getElementById("supervisorInput").value.trim();
             const students = document.getElementById("studentsInput").value.trim();
-            const note = document.getElementById("noteInput").value;
+            const note = document.getElementById("noteInput").value.trim();
 
             if (!supervisor || !students || !shift || !location || !task) {
                 alert(t.msgFillFields);
@@ -549,12 +548,10 @@
             isSubmitting = true;
 
             try {
-                // ضغط الصور وتحويلها إلى Base64
                 const uploadedImagesArray = await Promise.all(
                     selectedFiles.map(file => resizeImage(file))
                 );
 
-                // استخراج القيم من عناصر مدخلات HTML
                 const payloadData = {
                     shift: shift,
                     location: location,
@@ -565,7 +562,6 @@
                     files: uploadedImagesArray
                 };
 
-                // رابط التطبيق المنشور من Google Apps Script
                 const scriptUrl = "ضع_رابط_تطبيق_الويب_الخاص_بـ_Apps_Script_هنا";
 
                 const response = await fetch(scriptUrl, {
@@ -575,9 +571,8 @@
 
                 const result = await response.json();
                 if (result.status === "success") {
-                    alert("تم إرسال التقييم وحفظ الملفات بنجاح!");
+                    alert("تم إرسال التقييم وحفظ المستند النصي والصور بنجاح!");
                     
-                    // إعادة ضبط الاستمارة بعد الإرسال الناجح
                     selectedFiles = [];
                     document.getElementById('supervisorInput').value = '';
                     document.getElementById('studentsInput').value = '';
