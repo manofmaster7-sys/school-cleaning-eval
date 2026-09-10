@@ -256,9 +256,9 @@
                 <select id="shiftSelect"></select>
                 <select id="locationSelect"></select>
                 <select id="taskSelect"></select>
-                <input type="text" id="noteInput">
                 <input type="text" id="supervisorInput" required>
                 <input type="text" id="studentsInput" required>
+                <input type="text" id="noteInput">
             </div>
 
             <div class="upload-section">
@@ -280,6 +280,9 @@
         let isSubmitting = false;
         let currentLang = 'ar';
 
+        // ⚠️ استبدل هذا الرابط برابط التطبيق المباشر المأخوذ من Apps Script
+        const SCRIPT_URL = "ضع_رابط_تطبيق_الويب_الخاص_بـ_Apps_Script_هنا";
+
         const translations = {
             ar: {
                 headerTitle: "تقييم نظافة المدرسة",
@@ -295,7 +298,7 @@
                 fileCountText: (count) => `تم التقاط ${count} صورة من أصل 10`,
                 msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
-                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
+                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة.",
                 msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
                 shifts: [
                     { val: "", text: "اختر الدوام", disabled: true },
@@ -348,7 +351,7 @@
                 fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
                 msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
-                msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
+                msgFillFields: "Lütfen tüm zorunlu alanları doldurun.",
                 msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
                 shifts: [
                     { val: "", text: "Vardiya Seçin", disabled: true },
@@ -522,7 +525,6 @@
             });
         }
 
-        // دالة إرسال النموذج المربوطة بزر الإرسال
         async function submitAssessment() {
             const t = translations[currentLang];
             const submitBtn = document.getElementById("submitBtn");
@@ -532,7 +534,7 @@
             const task = document.getElementById("taskSelect").value;
             const supervisor = document.getElementById("supervisorInput").value.trim();
             const students = document.getElementById("studentsInput").value.trim();
-            const note = document.getElementById("noteInput").value;
+            const note = document.getElementById("noteInput").value.trim();
 
             if (!supervisor || !students || !shift || !location || !task) {
                 alert(t.msgFillFields);
@@ -549,12 +551,10 @@
             isSubmitting = true;
 
             try {
-                // ضغط الصور وتحويلها إلى Base64
                 const uploadedImagesArray = await Promise.all(
                     selectedFiles.map(file => resizeImage(file))
                 );
 
-                // استخراج القيم من عناصر مدخلات HTML
                 const payloadData = {
                     shift: shift,
                     location: location,
@@ -565,31 +565,28 @@
                     files: uploadedImagesArray
                 };
 
-                // رابط التطبيق المنشور من Google Apps Script
-                const scriptUrl = "ضع_رابط_تطبيق_الويب_الخاص_بـ_Apps_Script_هنا";
-
-                const response = await fetch(scriptUrl, {
+                // تم استخدام mode: 'no-cors' لتفادي حظر متصفحات الجوال لرابط Apps Script
+                await fetch(SCRIPT_URL, {
                     method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain"
+                    },
                     body: JSON.stringify(payloadData)
                 });
 
-                const result = await response.json();
-                if (result.status === "success") {
-                    alert("تم إرسال التقييم وحفظ الملفات بنجاح!");
-                    
-                    // إعادة ضبط الاستمارة بعد الإرسال الناجح
-                    selectedFiles = [];
-                    document.getElementById('supervisorInput').value = '';
-                    document.getElementById('studentsInput').value = '';
-                    document.getElementById('noteInput').value = '';
-                    updatePreviewUI();
-                    navigateTo('home-page');
-                } else {
-                    alert("حدث خطأ أثناء الإرسال: " + result.message);
-                }
+                alert("تم إرسال التقييم بنجاح!");
+                
+                selectedFiles = [];
+                document.getElementById('supervisorInput').value = '';
+                document.getElementById('studentsInput').value = '';
+                document.getElementById('noteInput').value = '';
+                updatePreviewUI();
+                navigateTo('home-page');
+
             } catch (err) {
                 console.error(err);
-                alert("تعذر الإرسال، يرجى التحقق من الاتصال بالإنترنت.");
+                alert("تعذر الإرسال، يرجى التحقق من الاتصال بالإنترنت أو التأكد من رابط السكربت.");
             } finally {
                 isSubmitting = false;
                 submitBtn.disabled = false;
