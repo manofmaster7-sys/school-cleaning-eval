@@ -124,20 +124,17 @@
             padding-top: 25px;
         }
         .btn-upload {
-            background-color: #007bff;
+            background-color: #17a2b8;
             color: white;
-            padding: 14px 25px;
-            font-size: 16px;
+            padding: 14px 30px;
+            font-size: 18px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             display: inline-block;
-            margin: 5px;
+            font-weight: bold;
         }
-        .btn-upload.camera {
-            background-color: #17a2b8;
-        }
-        #file-input-gallery, #file-input-camera { display: none; }
+        #file-input-camera { display: none; }
         
         .file-info {
             margin-top: 12px;
@@ -146,7 +143,7 @@
             font-weight: 500;
         }
 
-        /* شبكة عرض الصور الملتقطة والمحددة */
+        /* شبكة عرض الصور الملتقطة */
         .preview-grid {
             display: flex;
             flex-wrap: wrap;
@@ -282,17 +279,13 @@
             </div>
 
             <div class="upload-section">
-                <!-- خيار التصوير المباشر مع استمرار الإضافة -->
+                <!-- زر التقاط الصور من الكاميرا فقط -->
                 <input type="file" id="file-input-camera" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
-                <label for="file-input-camera" class="btn-upload camera">📸 التقاط صورة بالكاميرا</label>
+                <label for="file-input-camera" class="btn-upload">📸 التقاط صورة بالكاميرا</label>
 
-                <!-- خيار رفع عدة صور من الاستديو -->
-                <input type="file" id="file-input-gallery" accept="image/*" multiple onchange="handleFileSelect(event)">
-                <label for="file-input-gallery" class="btn-upload">🖼️ اختيار من المعرض</label>
-
-                <div class="file-info" id="file-count">لم يتم اختيار أي صور بعد (الحد الأقصى 10 صور)</div>
+                <div class="file-info" id="file-count">لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)</div>
                 
-                <!-- عرض الصور المحددة -->
+                <!-- عرض الصور الملتقطة -->
                 <div class="preview-grid" id="preview-grid"></div>
             </div>
 
@@ -328,9 +321,7 @@
                 selectedFiles.push(file);
             }
 
-            // إفراغ الخانات لتمكين التقاط صورة جديدة من نفس الزر
             event.target.value = "";
-
             updatePreviewUI();
         }
 
@@ -344,8 +335,8 @@
             const grid = document.getElementById('preview-grid');
             
             countLabel.innerText = selectedFiles.length > 0 
-                ? `تم التقاط/اختيار ${selectedFiles.length} صورة من أصل 10`
-                : "لم يتم اختيار أي صور بعد (الحد الأقصى 10 صور)";
+                ? `تم التقاط ${selectedFiles.length} صورة من أصل 10`
+                : "لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)";
 
             grid.innerHTML = "";
             selectedFiles.forEach((file, index) => {
@@ -400,7 +391,7 @@
 
         async function uploadDataToDrive() {
             if (selectedFiles.length === 0) {
-                alert("يرجى التقاط أو اختيار صورة واحدة على الأقل أولاً.");
+                alert("يرجى التقاط صورة واحدة على الأقل أولاً.");
                 return;
             }
 
