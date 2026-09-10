@@ -159,7 +159,6 @@
             font-weight: 500;
         }
 
-        /* شبكة عرض الصور الملتقطة */
         .preview-grid {
             display: flex;
             flex-wrap: wrap;
@@ -254,36 +253,19 @@
     <div id="task-page" class="page">
         <div class="form-container">
             <div class="controls-wrapper">
-                <select id="shift-select">
-                    <!-- خيارات الدوام -->
-                </select>
-
-                <select id="location-select">
-                    <!-- خيارات المكان -->
-                </select>
-
-                <select id="task-select">
-                    <!-- خيارات المهمة -->
-                </select>
-
-                <!-- ملاحظات إضافية -->
+                <select id="shift-select"></select>
+                <select id="location-select"></select>
+                <select id="task-select"></select>
                 <input type="text" id="custom-note">
-
-                <!-- خانة اسم المشرف (إلزامية) -->
                 <input type="text" id="supervisor-name" required>
-
-                <!-- خانة أسماء الطلاب المشرفين (إلزامية) -->
                 <input type="text" id="students-names" required>
             </div>
 
             <div class="upload-section">
-                <!-- زر التقاط الصور من الكاميرا فقط -->
                 <input type="file" id="file-input-camera" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
                 <label for="file-input-camera" class="btn-upload" id="txt-btn-upload">📸 التقاط صورة بالكاميرا</label>
 
                 <div class="file-info" id="file-count">لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)</div>
-                
-                <!-- عرض الصور الملتقطة -->
                 <div class="preview-grid" id="preview-grid"></div>
             </div>
 
@@ -321,7 +303,7 @@
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
                 msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
                 msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
-                msgSuccess: "تم الإرسال وحفظ المجلدات والصور بنجاح في Google Drive!",
+                msgSuccess: "تم الإرسال وحفظ المستند النصي والصور بنجاح في Google Drive!",
                 shifts: [
                     { val: "", text: "اختر الدوام", disabled: true },
                     { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي" },
@@ -375,7 +357,7 @@
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
                 msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
                 msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
-                msgSuccess: "Gönderildi ve klasörler ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
+                msgSuccess: "Gönderildi ve metin belgesi ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
                 shifts: [
                     { val: "", text: "Vardiya Seçin", disabled: true },
                     { val: "دوام القيد الرسمي", text: "Resmi Kayıt Vardiyası" },
@@ -557,7 +539,6 @@
             const location = document.getElementById('location-select').value;
             const task = document.getElementById('task-select').value;
 
-            // التحقق من تعبئة كافة الحقول الإلزامية
             if (!supervisor || !students || !shift || !location || !task) {
                 alert(t.msgFillFields);
                 return;
@@ -607,7 +588,6 @@
             isSubmitting = false;
             selectedFiles = [];
             
-            // تفريغ المدخلات بعد الإرسال الناجح
             document.getElementById('supervisor-name').value = '';
             document.getElementById('students-names').value = '';
             document.getElementById('custom-note').value = '';
@@ -620,7 +600,6 @@
             navigateTo('home-page');
         }
 
-        // التهيئة الأولية عند تحميل الصفحة
         window.onload = function() {
             updateLanguageUI();
         };
