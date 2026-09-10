@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقييم النظافة في المدرسة</title>
+    <title>تقييم نظافة مدرسة المناهل الدولية</title>
     <style>
         * {
             box-sizing: border-box;
@@ -28,19 +28,16 @@
             width: 100%;
             position: relative;
         }
-        .header-logo-container {
+        .logo-box {
             width: 120px;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
-        .header-logo-container.left-side {
-            gap: 10px;
-            width: auto;
-        }
+        .logo-box.right { justify-content: flex-start; }
+        .logo-box.left { justify-content: flex-end; }
         .logo {
-            max-height: 70px;
-            max-width: 100px;
+            max-height: 75px;
+            max-width: 100%;
             object-fit: contain;
         }
         .header-title-container {
@@ -53,17 +50,23 @@
             color: #1a5b8c;
             line-height: 1.2;
         }
+        .header-subtitle {
+            font-size: 15px;
+            color: #555;
+            font-weight: 600;
+            margin-top: 5px;
+        }
         .lang-btn {
             background-color: #1a5b8c;
             color: white;
             border: none;
             padding: 8px 16px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
             transition: background 0.2s ease;
-            white-space: nowrap;
+            margin-left: 10px;
         }
         .lang-btn:hover {
             background-color: #14446a;
@@ -112,40 +115,22 @@
         }
         .controls-wrapper {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        .form-row {
-            display: flex;
-            gap: 15px;
             flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
         }
-        .form-group {
-            flex: 1;
-            min-width: 220px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .form-group label {
-            font-weight: bold;
-            font-size: 14px;
-            color: #1a5b8c;
-        }
-        select, input[type="text"], textarea {
+        select, input[type="text"] {
             padding: 12px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            width: 100%;
+            flex: 1;
+            min-width: 200px;
             outline: none;
         }
-        textarea {
-            resize: vertical;
-            min-height: 70px;
-        }
-        select:focus, input:focus, textarea:focus {
+        select:focus, input[type="text"]:focus {
             border-color: #1a5b8c;
         }
         .upload-section {
@@ -174,6 +159,7 @@
             font-weight: 500;
         }
 
+        /* شبكة عرض الصور الملتقطة */
         .preview-grid {
             display: flex;
             flex-wrap: wrap;
@@ -233,30 +219,31 @@
 
         @media (max-width: 768px) {
             header { padding: 10px; }
-            .header-logo-container { width: 50px; }
-            .logo { max-height: 45px; max-width: 50px; }
-            .header-title { font-size: 15px; }
-            .lang-btn { padding: 5px 8px; font-size: 12px; }
+            .logo-box { width: 60px; }
+            .logo { max-height: 45px; }
+            .header-title { font-size: 14px; }
+            .header-subtitle { font-size: 10px; }
+            .lang-btn { padding: 5px 10px; font-size: 13px; margin-left: 5px; }
             #home-page { padding-top: 120px; }
             .btn-main { font-size: 20px; padding: 16px 35px; }
-            .form-row { flex-direction: column; }
+            .controls-wrapper { flex-direction: column; }
+            select, input[type="text"] { width: 100%; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-logo-container">
-            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/80x60?text=المدرسة'">
+        <div class="logo-box right">
+            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/100x70?text=شعار+المدرسة'">
         </div>
-
         <div class="header-title-container">
-            <div class="header-title" id="txt-header-title">تقييم النظافة في المدرسة</div>
+            <div class="header-title" id="txt-header-title">تقييم نظافة المدرسة</div>
+            <div class="header-subtitle" id="txt-header-subtitle">للعام الدراسي 2026 - 2027</div>
         </div>
-
-        <div class="header-logo-container left-side">
-            <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">TR</button>
-            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/80x60?text=المدرسة'">
+        <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">TR</button>
+        <div class="logo-box left">
+            <img src="assoc-logo.png" alt="شعار الجمعية" class="logo" onerror="this.src='https://via.placeholder.com/100x70?text=شعار+الجمعية'">
         </div>
     </header>
 
@@ -267,35 +254,36 @@
     <div id="task-page" class="page">
         <div class="form-container">
             <div class="controls-wrapper">
-                <!-- الصف الأول: الطابق والقسم -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label id="lbl-location">المكان / الطابق</label>
-                        <select id="location-select"></select>
-                    </div>
-                    <div class="form-group">
-                        <label id="lbl-task">المهمة / القسم</label>
-                        <select id="task-select"></select>
-                    </div>
-                </div>
+                <select id="shift-select">
+                    <!-- خيارات الدوام -->
+                </select>
 
-                <!-- الصف الثاني: اسم المشرف والطلاب المشرفين -->
-                <div class="form-row">
-                    <div class="form-group">
-                        <label id="lbl-supervisor">اسم المشرف</label>
-                        <input type="text" id="supervisor-input" placeholder="أدخل اسم المشرف">
-                    </div>
-                    <div class="form-group">
-                        <label id="lbl-students">أسماء الطلاب المشرفين</label>
-                        <textarea id="students-input" placeholder="أدخل أسماء الطلاب المشرفين"></textarea>
-                    </div>
-                </div>
+                <select id="location-select">
+                    <!-- خيارات المكان -->
+                </select>
+
+                <select id="task-select">
+                    <!-- خيارات المهمة -->
+                </select>
+
+                <!-- ملاحظات إضافية -->
+                <input type="text" id="custom-note">
+
+                <!-- خانة اسم المشرف (إلزامية) -->
+                <input type="text" id="supervisor-name" required>
+
+                <!-- خانة أسماء الطلاب المشرفين (إلزامية) -->
+                <input type="text" id="students-names" required>
             </div>
 
             <div class="upload-section">
+                <!-- زر التقاط الصور من الكاميرا فقط -->
                 <input type="file" id="file-input-camera" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
                 <label for="file-input-camera" class="btn-upload" id="txt-btn-upload">📸 التقاط صورة بالكاميرا</label>
+
                 <div class="file-info" id="file-count">لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)</div>
+                
+                <!-- عرض الصور الملتقطة -->
                 <div class="preview-grid" id="preview-grid"></div>
             </div>
 
@@ -305,8 +293,9 @@
         </div>
     </div>
 
+    <!-- نموذج وiframe مخفيان لضمان الرفع دون حظر المتصفح -->
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting){onUploadComplete();}"></iframe>
-    <form id="hidden-form" action="https://script.google.com/macros/s/AKfycbzc3pTRX2IrajOgrfv3DyIH9yQWos-WPpxIymCdlkUb3CHFvB6WY7VHErnORZ6AWUk-GA/exec" method="POST" target="hidden_iframe" style="display:none;">
+    <form id="hidden-form" action="https://script.google.com/macros/s/AKfycbwwpnwve5SsEGvMlTslXLacNPyoXLtwEvshXsi5zJk1yTNpV83c22FK-Y_OIn11VIw4Mg/exec" method="POST" target="hidden_iframe" style="display:none;">
         <input type="hidden" name="payload" id="payload-input">
     </form>
 
@@ -317,75 +306,111 @@
 
         const translations = {
             ar: {
-                headerTitle: "تقييم النظافة في المدرسة",
+                headerTitle: "تقييم نظافة المدرسة",
+                headerSubtitle: "للعام الدراسي 2026 - 2027",
                 btnMain: "مهمة جديدة",
-                lblLocation: "المكان / الطابق",
-                lblTask: "المهمة / القسم",
-                lblSupervisor: "اسم المشرف",
-                phSupervisor: "أدخل اسم المشرف",
-                lblStudents: "أسماء الطلاب المشرفين",
-                phStudents: "أدخل أسماء الطلاب المشرفين",
                 btnUpload: "📸 التقاط صورة بالكاميرا",
                 btnSubmit: "إرسال التقييم إلى Drive",
                 btnSubmitting: "جاري الإرسال...",
+                supervisorPlaceholder: "اسم المشرف (مطلوب) *",
+                studentsPlaceholder: "أسماء الطلاب المشرفين (مطلوب) *",
+                customNotePlaceholder: "ملاحظات إضافية (اختياري)...",
                 fileCountZero: "لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)",
                 fileCountText: (count) => `تم التقاط ${count} صورة من أصل 10`,
                 msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
-                msgFillFields: "يرجى اختيار المكان والمهمة وإدخال اسم المشرف.",
+                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
                 msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
-                msgSuccess: "تم الإرسال وحفظ المستند النصي والصور بنجاح في Google Drive!",
+                msgSuccess: "تم الإرسال وحفظ المجلدات والصور بنجاح في Google Drive!",
+                shifts: [
+                    { val: "", text: "اختر الدوام", disabled: true },
+                    { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي" },
+                    { val: "الدوام المسائي", text: "الدوام المسائي" },
+                    { val: "دوام سبت وأحد", text: "دوام سبت وأحد" }
+                ],
                 locations: [
-                    { val: "", text: "اختر الطابق", disabled: true },
-                    { val: "الطابق الأرضي", text: "الطابق الأرضي" },
+                    { val: "", text: "اختر المكان", disabled: true },
+                    { val: "الساحات الرئيسية", text: "الساحات الرئيسية" },
                     { val: "الطابق الأول", text: "الطابق الأول" },
                     { val: "الطابق الثاني", text: "الطابق الثاني" },
-                    { val: "الطابق الثالث", text: "الطابق الثالث" }
+                    { val: "الطابق الثالث", text: "الطابق الثالث" },
+                    { val: "الطابق الرابع", text: "الطابق الرابع" },
+                    { val: "الطابق الخامس", text: "الطابق الخامس" },
+                    { val: "الطابق السادس", text: "الطابق السادس" },
+                    { val: "الدرج المفرد", text: "الدرج المفرد" },
+                    { val: "الدرج المزدوج", text: "الدرج المزدوج" }
                 ],
                 tasks: [
-                    { val: "", text: "اختر المكان / الغرفة", disabled: true },
-                    { val: "الفصول الدراسية", text: "الفصول الدراسية" },
-                    { val: "الممرات والسلالم", text: "الممرات والسلالم" },
-                    { val: "الحمامات", text: "الحمامات" },
-                    { val: "الملعب والفيناء", text: "الملعب والفناء" },
-                    { val: "المكاتب الإدارية", text: "المكاتب الإدارية" },
-                    { val: "المقصف", text: "المقصف" }
+                    { val: "", text: "اختر المهمة", disabled: true },
+                    { val: "الصف", text: "الصف" },
+                    { val: "ساحة الطابق", text: "ساحة الطابق" },
+                    { val: "حمامات الطابق", text: "حمامات الطابق" },
+                    { val: "غرفة المعلمين", text: "غرفة المعلمين" },
+                    { val: "بلكون", text: "بلكون" },
+                    { val: "غرفة التوجيه", text: "غرفة التوجيه" },
+                    { val: "المرسم", text: "المرسم" },
+                    { val: "مختبر الحاسوب", text: "مختبر الحاسوب" },
+                    { val: "المكتبة", text: "المكتبة" },
+                    { val: "غرفة الألعاب", text: "غرفة الألعاب" },
+                    { val: "مختبر اللغة التركية", text: "مختبر اللغة التركية" },
+                    { val: "المعرض", text: "المعرض" },
+                    { val: "غرفة الطباعة", text: "غرفة الطباعة" },
+                    { val: "الدرج المفرد", text: "الدرج المفرد" },
+                    { val: "الدرج المزدوج", text: "الدرج المزدوج" }
                 ]
             },
             tr: {
                 headerTitle: "Okul Temizlik Değerlendirmesi",
+                headerSubtitle: "2026 - 2027 Eğitim Öğretim Yılı",
                 btnMain: "Yeni Görev",
-                lblLocation: "Konum / Kat",
-                lblTask: "Görev / Bölüm",
-                lblSupervisor: "Gözetmen Adı",
-                phSupervisor: "Gözetmen öğretmen adını giriniz",
-                lblStudents: "Gözetmen Öğrencilerin Adları",
-                phStudents: "Görevli öğrencilerin adlarını giriniz",
                 btnUpload: "📸 Kamera ile Fotoğraf Çek",
                 btnSubmit: "Değerlendirmeyi Drive'a Gönder",
                 btnSubmitting: "Gönderiliyor...",
+                supervisorPlaceholder: "Gözetmen Adı (Zorunlu) *",
+                studentsPlaceholder: "Gözetmen Öğrencilerin Adları (Zorunlu) *",
+                customNotePlaceholder: "Ek Notlar (İsteğe bağlı)...",
                 fileCountZero: "Henüz fotoğraf çekilmedi (Maksimum 10 fotoğraf)",
                 fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
                 msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
-                msgFillFields: "Lütfen kat, bölüm ve gözetmen adını doldurun.",
-                msgError: "Hata oluştu, lütfen tekrar deneyin.",
-                msgSuccess: "Başarıyla gönderildi ve metin belgesi ile fotoğraflar Google Drive'a kaydedildi!",
+                msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
+                msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
+                msgSuccess: "Gönderildi ve klasörler ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
+                shifts: [
+                    { val: "", text: "Vardiya Seçin", disabled: true },
+                    { val: "دوام القيد الرسمي", text: "Resmi Kayıt Vardiyası" },
+                    { val: "الدوام المسائي", text: "Akşam Vardiyası" },
+                    { val: "دوام سبت وأحد", text: "Hafta Sonu Vardiyası (Cts-Paz)" }
+                ],
                 locations: [
-                    { val: "", text: "Kat Seçin", disabled: true },
-                    { val: "الطابق الأرضي", text: "Zemin Kat" },
+                    { val: "", text: "Konum Seçin", disabled: true },
+                    { val: "الساحات الرئيسية", text: "Ana Meydanlar / Bahçeler" },
                     { val: "الطابق الأول", text: "1. Kat" },
                     { val: "الطابق الثاني", text: "2. Kat" },
-                    { val: "الطابق الثالث", text: "3. Kat" }
+                    { val: "الطابق الثالث", text: "3. Kat" },
+                    { val: "الطابق الرابع", text: "4. Kat" },
+                    { val: "الطابق الخامس", text: "5. Kat" },
+                    { val: "الطابق السادس", text: "6. Kat" },
+                    { val: "الدرج المفرد", text: "Tekli Merdiven" },
+                    { val: "الدرج المزدوج", text: "Çiftli Merdiven" }
                 ],
                 tasks: [
-                    { val: "", text: "Bölüm Seçin", disabled: true },
-                    { val: "الفصول الدراسية", text: "Derslikler / Sınıflar" },
-                    { val: "الممرات والسلالم", text: "Koridorlar ve Merdivenler" },
-                    { val: "الحمامات", text: "Tuvaletler" },
-                    { val: "الملعب والفيناء", text: "Okul Bahçesi" },
-                    { val: "المكاتب الإدارية", text: "İdari Ofisler" },
-                    { val: "المقصف", text: "Kantin" }
+                    { val: "", text: "Görev Seçin", disabled: true },
+                    { val: "الصف", text: "Sınıf" },
+                    { val: "ساحة الطابق", text: "Kat Koridoru / Alanı" },
+                    { val: "حمامات الطابق", text: "Kat Tuvaletleri" },
+                    { val: "غرفة المعلمين", text: "Öğretmenler Odası" },
+                    { val: "بلكون", text: "Balkon" },
+                    { val: "غرفة التوجيه", text: "Rehberlik Odası" },
+                    { val: "المرسم", text: "Resim Atölyesi" },
+                    { val: "مختبر الحاسوب", text: "Bilgisayar Laboratuvarı" },
+                    { val: "المكتبة", text: "Kütüphane" },
+                    { val: "غرفة الألعاب", text: "Oyun Odası" },
+                    { val: "مختبر اللغة التركية", text: "Türkçe Laboratuvarı" },
+                    { val: "المعرض", text: "Sergi Alanı" },
+                    { val: "غرفة الطباعة", text: "Baskı / Fotokopi Odası" },
+                    { val: "الدرج المفرد", text: "Tekli Merdiven" },
+                    { val: "الدرج المزدوج", text: "Çiftli Merdiven" }
                 ]
             }
         };
@@ -409,15 +434,8 @@
             const t = translations[currentLang];
 
             document.getElementById('txt-header-title').innerText = t.headerTitle;
+            document.getElementById('txt-header-subtitle').innerText = t.headerSubtitle;
             document.getElementById('txt-btn-main').innerText = t.btnMain;
-            
-            document.getElementById('lbl-location').innerText = t.lblLocation;
-            document.getElementById('lbl-task').innerText = t.lblTask;
-            document.getElementById('lbl-supervisor').innerText = t.lblSupervisor;
-            document.getElementById('supervisor-input').placeholder = t.phSupervisor;
-            document.getElementById('lbl-students').innerText = t.lblStudents;
-            document.getElementById('students-input').placeholder = t.phStudents;
-
             document.getElementById('txt-btn-upload').innerText = t.btnUpload;
             
             const submitBtn = document.getElementById('submit-btn');
@@ -427,8 +445,12 @@
                 submitBtn.innerText = t.btnSubmitting;
             }
 
+            document.getElementById('supervisor-name').placeholder = t.supervisorPlaceholder;
+            document.getElementById('students-names').placeholder = t.studentsPlaceholder;
+            document.getElementById('custom-note').placeholder = t.customNotePlaceholder;
             document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'TR' : 'AR';
 
+            populateSelect('shift-select', t.shifts);
             populateSelect('location-select', t.locations);
             populateSelect('task-select', t.tasks);
 
@@ -529,12 +551,14 @@
         async function uploadDataToDrive() {
             const t = translations[currentLang];
 
+            const supervisor = document.getElementById('supervisor-name').value.trim();
+            const students = document.getElementById('students-names').value.trim();
+            const shift = document.getElementById('shift-select').value;
             const location = document.getElementById('location-select').value;
             const task = document.getElementById('task-select').value;
-            const supervisor = document.getElementById('supervisor-input').value.trim();
-            const students = document.getElementById('students-input').value.trim();
 
-            if (!location || !task || !supervisor) {
+            // التحقق من تعبئة كافة الحقول الإلزامية
+            if (!supervisor || !students || !shift || !location || !task) {
                 alert(t.msgFillFields);
                 return;
             }
@@ -554,10 +578,12 @@
                 );
 
                 const payload = {
-                    location: location,
-                    task: task,
                     supervisor: supervisor,
                     students: students,
+                    shift: shift,
+                    location: location,
+                    task: task,
+                    note: document.getElementById('custom-note').value,
                     files: compressedFiles
                 };
 
@@ -580,9 +606,11 @@
             alert(t.msgSuccess);
             isSubmitting = false;
             selectedFiles = [];
-
-            document.getElementById('supervisor-input').value = '';
-            document.getElementById('students-input').value = '';
+            
+            // تفريغ المدخلات بعد الإرسال الناجح
+            document.getElementById('supervisor-name').value = '';
+            document.getElementById('students-names').value = '';
+            document.getElementById('custom-note').value = '';
 
             updatePreviewUI();
             
@@ -592,6 +620,7 @@
             navigateTo('home-page');
         }
 
+        // التهيئة الأولية عند تحميل الصفحة
         window.onload = function() {
             updateLanguageUI();
         };
