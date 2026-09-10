@@ -247,7 +247,7 @@
 
     <header>
         <div class="header-logo-container">
-            <img src="assoc-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/80x60?text=المدرسة'">
+            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/80x60?text=المدرسة'">
         </div>
 
         <div class="header-title-container">
@@ -256,7 +256,7 @@
 
         <div class="header-logo-container left-side">
             <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">TR</button>
-            <img src="assoc-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/80x60?text=المدرسة'">
+            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/80x60?text=المدرسة'">
         </div>
     </header>
 
@@ -267,7 +267,7 @@
     <div id="task-page" class="page">
         <div class="form-container">
             <div class="controls-wrapper">
-                <!-- الصف الأول: الموقع والمهمة -->
+                <!-- الصف الأول: الطابق والقسم -->
                 <div class="form-row">
                     <div class="form-group">
                         <label id="lbl-location">المكان / الطابق</label>
@@ -324,7 +324,7 @@
                 lblSupervisor: "اسم المشرف",
                 phSupervisor: "أدخل اسم المشرف",
                 lblStudents: "أسماء الطلاب المشرفين",
-                phStudents: "أدخل أسماء الطلاب المشاركين",
+                phStudents: "أدخل أسماء الطلاب المشرفين",
                 btnUpload: "📸 التقاط صورة بالكاميرا",
                 btnSubmit: "إرسال التقييم إلى Drive",
                 btnSubmitting: "جاري الإرسال...",
@@ -333,20 +333,23 @@
                 msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
                 msgFillFields: "يرجى اختيار المكان والمهمة وإدخال اسم المشرف.",
-                msgError: "حدث خطأ أثناء معالجة الصور والبيانات، يرجى المحاولة مجدداً.",
+                msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
                 msgSuccess: "تم الإرسال وحفظ المستند النصي والصور بنجاح في Google Drive!",
                 locations: [
-                    { val: "", text: "اختر المكان", disabled: true },
+                    { val: "", text: "اختر الطابق", disabled: true },
+                    { val: "الطابق الأرضي", text: "الطابق الأرضي" },
                     { val: "الطابق الأول", text: "الطابق الأول" },
-                    { val: "الطابق الثاني", text: "الطابق الثاني" }
+                    { val: "الطابق الثاني", text: "الطابق الثاني" },
+                    { val: "الطابق الثالث", text: "الطابق الثالث" }
                 ],
                 tasks: [
-                    { val: "", text: "اختر المهمة", disabled: true },
-                    { val: "الساحات", text: "الساحات" },
+                    { val: "", text: "اختر المكان / الغرفة", disabled: true },
+                    { val: "الفصول الدراسية", text: "الفصول الدراسية" },
+                    { val: "الممرات والسلالم", text: "الممرات والسلالم" },
                     { val: "الحمامات", text: "الحمامات" },
-                    { val: "المكاتب", text: "المكاتب" },
-                    { val: "النطق", text: "النطق" },
-                    { val: "المطبخ", text: "المطبخ" }
+                    { val: "الملعب والفيناء", text: "الملعب والفناء" },
+                    { val: "المكاتب الإدارية", text: "المكاتب الإدارية" },
+                    { val: "المقصف", text: "المقصف" }
                 ]
             },
             tr: {
@@ -355,9 +358,9 @@
                 lblLocation: "Konum / Kat",
                 lblTask: "Görev / Bölüm",
                 lblSupervisor: "Gözetmen Adı",
-                phSupervisor: "Gözetmen adını giriniz",
+                phSupervisor: "Gözetmen öğretmen adını giriniz",
                 lblStudents: "Gözetmen Öğrencilerin Adları",
-                phStudents: "Katılan öğrencilerin adlarını giriniz",
+                phStudents: "Görevli öğrencilerin adlarını giriniz",
                 btnUpload: "📸 Kamera ile Fotoğraf Çek",
                 btnSubmit: "Değerlendirmeyi Drive'a Gönder",
                 btnSubmitting: "Gönderiliyor...",
@@ -365,21 +368,24 @@
                 fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
                 msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
-                msgFillFields: "Lütfen konum, görev ve gözetmen adını doldurun.",
-                msgError: "Hata oluştu, lütfen tekrar deneyين.",
+                msgFillFields: "Lütfen kat, bölüm ve gözetmen adını doldurun.",
+                msgError: "Hata oluştu, lütfen tekrar deneyin.",
                 msgSuccess: "Başarıyla gönderildi ve metin belgesi ile fotoğraflar Google Drive'a kaydedildi!",
                 locations: [
-                    { val: "", text: "Konum Seçin", disabled: true },
+                    { val: "", text: "Kat Seçin", disabled: true },
+                    { val: "الطابق الأرضي", text: "Zemin Kat" },
                     { val: "الطابق الأول", text: "1. Kat" },
-                    { val: "الطابق الثاني", text: "2. Kat" }
+                    { val: "الطابق الثاني", text: "2. Kat" },
+                    { val: "الطابق الثالث", text: "3. Kat" }
                 ],
                 tasks: [
-                    { val: "", text: "Görev Seçin", disabled: true },
-                    { val: "الساحات", text: "Meydanlar / Bahçeler" },
+                    { val: "", text: "Bölüm Seçin", disabled: true },
+                    { val: "الفصول الدراسية", text: "Derslikler / Sınıflar" },
+                    { val: "الممرات والسلالم", text: "Koridorlar ve Merdivenler" },
                     { val: "الحمامات", text: "Tuvaletler" },
-                    { val: "المكاتب", text: "Ofisler" },
-                    { val: "النطق", text: "Konuşma Terapisi Odası" },
-                    { val: "المطبخ", text: "Mutfak" }
+                    { val: "الملعب والفيناء", text: "Okul Bahçesi" },
+                    { val: "المكاتب الإدارية", text: "İdari Ofisler" },
+                    { val: "المقصف", text: "Kantin" }
                 ]
             }
         };
