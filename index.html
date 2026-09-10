@@ -5,177 +5,275 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام تقييم نظافة المدرسة</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #27ae60;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #cccccc;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
             direction: rtl;
-            padding: 20px;
         }
+
         .container {
-            max-width: 500px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
-        h2 { text-align: center; color: #2c3e50; }
-        .form-group { margin-bottom: 15px; }
-        label { font-weight: bold; display: block; margin-bottom: 5px; }
-        input, select, textarea {
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input[type="text"], select, textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 14px;
         }
-        button {
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .btn-submit {
             width: 100%;
-            padding: 12px;
-            background: #27ae60;
+            background-color: var(--accent-color);
             color: white;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 15px;
         }
-        button:disabled { background: #bdc3c7; }
-        #status { margin-top: 15px; text-align: center; font-weight: bold; }
-        .preview { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
-        .preview img { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; }
+
+        .btn-submit:hover {
+            background-color: #219150;
+        }
+
+        .btn-submit:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        #status-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-loading {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+        }
+
+        #preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .preview-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>تقييم النظافة اليومي</h2>
+    <h2>نموذج تقييم النظافة اليومي</h2>
 
-    <form id="main-form">
+    <form id="eval-form">
+        <!-- 1. الدوام -->
         <div class="form-group">
-            <label>الدوام:</label>
+            <label for="shift">الدوام:</label>
             <select id="shift" required>
-                <option value="">اختر الدوام</option>
+                <option value="">-- اختر الدوام --</option>
                 <option value="الدوام الأول">الدوام الأول</option>
                 <option value="الدوام الثاني">الدوام الثاني</option>
             </select>
         </div>
 
+        <!-- 2. المكان -->
         <div class="form-group">
-            <label>المكان / الطابق:</label>
+            <label for="location">المكان / الطابق:</label>
             <select id="location" required>
-                <option value="">اختر المكان</option>
+                <option value="">-- اختر المكان --</option>
                 <option value="الطابق الأرضي">الطابق الأرضي</option>
                 <option value="الطابق الأول">الطابق الأول</option>
                 <option value="الطابق الثاني">الطابق الثاني</option>
+                <option value="الملعب والساحة">الملعب والساحة</option>
+                <option value="المرافق الصحية">المرافق الصحية</option>
             </select>
         </div>
 
+        <!-- 3. المهمة -->
         <div class="form-group">
-            <label>المهمة:</label>
-            <input type="text" id="task" placeholder="مثال: الصف_1" required>
+            <label for="task">المهمة / النطاق:</label>
+            <input type="text" id="task" placeholder="مثال: الصف_1، تنظيف الممرات..." required>
         </div>
 
-        <!-- خانة اسم المشرف -->
+        <!-- 4. اسم المشرف -->
         <div class="form-group">
-            <label>اسم المشرف:</label>
+            <label for="supervisor">اسم المشرف:</label>
             <input type="text" id="supervisor" placeholder="أدخل اسم المشرف المسؤول" required>
         </div>
 
-        <!-- خانة أسماء الطلاب المشرفين -->
+        <!-- 5. أسماء الطلاب المشرفين -->
         <div class="form-group">
-            <label>أسماء الطلاب المشرفين:</label>
-            <input type="text" id="students" placeholder="أدخل أسماء الطلاب المشرفين" required>
+            <label for="students">أسماء الطلاب المشاركين:</label>
+            <input type="text" id="students" placeholder="أدخل أسماء الطلاب" required>
         </div>
 
+        <!-- 6. ملاحظات إضافية -->
         <div class="form-group">
-            <label>ملاحظات إضافية:</label>
+            <label for="note">ملاحظات إضافية:</label>
             <textarea id="note" placeholder="أي ملاحظات إضافية..."></textarea>
         </div>
 
+        <!-- 7. الصور -->
         <div class="form-group">
-            <label>إرفاق صور:</label>
-            <input type="file" id="files" accept="image/*" multiple>
-            <div id="preview" class="preview"></div>
+            <label for="images">التقط / ارفع الصور:</label>
+            <input type="file" id="images" accept="image/*" multiple capture="environment">
+            <div id="preview-container"></div>
         </div>
 
-        <button type="submit" id="submit-btn">إرسال التقييم</button>
+        <button type="submit" id="submit-btn" class="btn-submit">إرسال التقييم إلى Drive</button>
     </form>
 
-    <div id="status"></div>
+    <div id="status-message"></div>
 </div>
 
-<!-- نموذج مخفي للربط بـ Apps Script بدون مشاكل CORS -->
-<form id="hidden-form" action="https://script.google.com/macros/s/AKfycbzxHRw8xekI2GYrPHlPux_at345UsQwd5qKnlZ6qMP0EkJeyjJMy4x6jACzKLj8IUlXxw/exec" method="POST" target="hidden_iframe" style="display:none;">
+<!-- النموذج المخفي لإرسال البيانات دون مشاكل CORS -->
+<form id="hidden-form" 
+      action="https://script.google.com/macros/s/AKfycbzxHRw8xekI2GYrPHlPux_at345UsQwd5qKnlZ6qMP0EkJeyjJMy4x6jACzKLj8IUlXxw/exec" 
+      method="POST" 
+      target="hidden_iframe" 
+      style="display:none;">
     <input type="hidden" name="payload" id="payload-input">
 </form>
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
 <script>
-    const fileInput = document.getElementById('files');
-    const preview = document.getElementById('preview');
-    const mainForm = document.getElementById('main-form');
+    const form = document.getElementById('eval-form');
+    const imageInput = document.getElementById('images');
+    const previewContainer = document.getElementById('preview-container');
+    const submitBtn = document.getElementById('submit-btn');
+    const statusMsg = document.getElementById('status-message');
     const hiddenForm = document.getElementById('hidden-form');
     const payloadInput = document.getElementById('payload-input');
-    const submitBtn = document.getElementById('submit-btn');
-    const statusDiv = document.getElementById('status');
     const hiddenIframe = document.getElementById('hidden_iframe');
 
-    let loadedFiles = [];
+    let base64Files = [];
 
-    fileInput.addEventListener('change', async function() {
-        preview.innerHTML = '';
-        loadedFiles = [];
-        for (let file of Array.from(fileInput.files)) {
-            const base64 = await toBase64(file);
-            loadedFiles.push({ data: base64, type: file.type });
+    imageInput.addEventListener('change', async function() {
+        previewContainer.innerHTML = '';
+        base64Files = [];
+        const files = Array.from(imageInput.files);
+
+        for (let file of files) {
+            const base64 = await convertToBase64(file);
+            base64Files.push({
+                data: base64,
+                type: file.type
+            });
 
             const img = document.createElement('img');
             img.src = base64;
-            preview.appendChild(img);
+            img.className = 'preview-img';
+            previewContainer.appendChild(img);
         }
     });
 
-    function toBase64(file) {
+    function convertToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
+            reader.onerror = error => reject(error);
         });
     }
 
-    mainForm.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        showStatus('جاري رفع التقرير والصور إلى Google Drive...', 'loading');
         submitBtn.disabled = true;
-        statusDiv.style.color = '#333';
-        statusDiv.innerText = 'جاري رفع التقرير والصور إلى Google Drive...';
 
-        const data = {
+        const payloadData = {
             shift: document.getElementById('shift').value,
             location: document.getElementById('location').value,
             task: document.getElementById('task').value,
             supervisor: document.getElementById('supervisor').value,
             students: document.getElementById('students').value,
             note: document.getElementById('note').value,
-            files: loadedFiles
+            files: base64Files
         };
 
-        payloadInput.value = JSON.stringify(data);
+        payloadInput.value = JSON.stringify(payloadData);
         hiddenForm.submit();
     });
 
     hiddenIframe.addEventListener('load', function() {
         if (submitBtn.disabled) {
-            statusDiv.style.color = 'green';
-            statusDiv.innerText = 'تم رفع الصور والمستند النصي (TXT) بنجاح!';
+            showStatus('تم حفظ التقرير والمستند النصي والصور بنجاح!', 'success');
             submitBtn.disabled = false;
-            mainForm.reset();
-            preview.innerHTML = '';
-            loadedFiles = [];
+            form.reset();
+            previewContainer.innerHTML = '';
+            base64Files = [];
         }
     });
+
+    function showStatus(text, type) {
+        statusMsg.style.display = 'block';
+        statusMsg.innerText = text;
+        statusMsg.className = 'status-' + type;
+    }
 </script>
 
 </body>
