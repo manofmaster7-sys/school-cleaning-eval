@@ -255,18 +255,25 @@
         <div class="form-container">
             <div class="controls-wrapper">
                 <select id="shift-select">
-                    <!-- سيتم ملئ الخيارات عبر الجافاسكربت لدعم الترجمة -->
+                    <!-- خيارات الدوام -->
                 </select>
 
                 <select id="location-select">
-                    <!-- سيتم ملئ الخيارات عبر الجافاسكربت لدعم الترجمة -->
+                    <!-- خيارات المكان -->
                 </select>
 
                 <select id="task-select">
-                    <!-- سيتم ملئ الخيارات عبر الجافاسكربت لدعم الترجمة -->
+                    <!-- خيارات المهمة -->
                 </select>
 
-                <input type="text" id="custom-note" placeholder="ملاحظات إضافية (اختياري)...">
+                <!-- ملاحظات إضافية -->
+                <input type="text" id="custom-note">
+
+                <!-- خانة اسم المشرف (إلزامية) -->
+                <input type="text" id="supervisor-name" required>
+
+                <!-- خانة أسماء الطلاب المشرفين (إلزامية) -->
+                <input type="text" id="students-names" required>
             </div>
 
             <div class="upload-section">
@@ -305,12 +312,14 @@
                 btnUpload: "📸 التقاط صورة بالكاميرا",
                 btnSubmit: "إرسال التقييم إلى Drive",
                 btnSubmitting: "جاري الإرسال...",
+                supervisorPlaceholder: "اسم المشرف (مطلوب) *",
+                studentsPlaceholder: "أسماء الطلاب المشرفين (مطلوب) *",
                 customNotePlaceholder: "ملاحظات إضافية (اختياري)...",
                 fileCountZero: "لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)",
                 fileCountText: (count) => `تم التقاط ${count} صورة من أصل 10`,
                 msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
-                msgFillFields: "يرجى تعبئة كافة الشرائط المنسدلة الثلاثة.",
+                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
                 msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
                 msgSuccess: "تم الإرسال وحفظ المجلدات والصور بنجاح في Google Drive!",
                 shifts: [
@@ -357,12 +366,14 @@
                 btnUpload: "📸 Kamera ile Fotoğraf Çek",
                 btnSubmit: "Değerlendirmeyi Drive'a Gönder",
                 btnSubmitting: "Gönderiliyor...",
+                supervisorPlaceholder: "Gözetmen Adı (Zorunlu) *",
+                studentsPlaceholder: "Gözetmen Öğrencilerin Adları (Zorunlu) *",
                 customNotePlaceholder: "Ek Notlar (İsteğe bağlı)...",
                 fileCountZero: "Henüz fotoğraf çekilmedi (Maksimum 10 fotoğraf)",
                 fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
                 msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
-                msgFillFields: "Lütfen tüm açılır menüleri doldurun.",
+                msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
                 msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
                 msgSuccess: "Gönderildi ve klasörler ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
                 shifts: [
@@ -434,6 +445,8 @@
                 submitBtn.innerText = t.btnSubmitting;
             }
 
+            document.getElementById('supervisor-name').placeholder = t.supervisorPlaceholder;
+            document.getElementById('students-names').placeholder = t.studentsPlaceholder;
             document.getElementById('custom-note').placeholder = t.customNotePlaceholder;
             document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'TR' : 'AR';
 
@@ -538,17 +551,20 @@
         async function uploadDataToDrive() {
             const t = translations[currentLang];
 
-            if (selectedFiles.length === 0) {
-                alert(t.msgNoFiles);
-                return;
-            }
-
+            const supervisor = document.getElementById('supervisor-name').value.trim();
+            const students = document.getElementById('students-names').value.trim();
             const shift = document.getElementById('shift-select').value;
             const location = document.getElementById('location-select').value;
             const task = document.getElementById('task-select').value;
 
-            if (!shift || !location || !task) {
+            // التحقق من تعبئة كافة الحقول الإلزامية
+            if (!supervisor || !students || !shift || !location || !task) {
                 alert(t.msgFillFields);
+                return;
+            }
+
+            if (selectedFiles.length === 0) {
+                alert(t.msgNoFiles);
                 return;
             }
 
@@ -562,6 +578,8 @@
                 );
 
                 const payload = {
+                    supervisor: supervisor,
+                    students: students,
                     shift: shift,
                     location: location,
                     task: task,
@@ -588,6 +606,12 @@
             alert(t.msgSuccess);
             isSubmitting = false;
             selectedFiles = [];
+            
+            // تفريغ المدخلات بعد الإرسال الناجح
+            document.getElementById('supervisor-name').value = '';
+            document.getElementById('students-names').value = '';
+            document.getElementById('custom-note').value = '';
+
             updatePreviewUI();
             
             const submitBtn = document.getElementById('submit-btn');
