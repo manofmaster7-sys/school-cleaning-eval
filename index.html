@@ -126,20 +126,65 @@
         .btn-upload {
             background-color: #007bff;
             color: white;
-            padding: 14px 30px;
-            font-size: 18px;
+            padding: 14px 25px;
+            font-size: 16px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             display: inline-block;
+            margin: 5px;
         }
-        #file-input { display: none; }
+        .btn-upload.camera {
+            background-color: #17a2b8;
+        }
+        #file-input-gallery, #file-input-camera { display: none; }
+        
         .file-info {
             margin-top: 12px;
             font-size: 15px;
             color: #666;
             font-weight: 500;
         }
+
+        /* شبكة عرض الصور الملتقطة والمحددة */
+        .preview-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .preview-item {
+            position: relative;
+            width: 85px;
+            height: 85px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #ddd;
+        }
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(220, 53, 69, 0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
         .submit-btn-wrapper {
             margin-top: 25px;
             text-align: center;
@@ -201,7 +246,6 @@
                     <option value="دوام سبت وأحد">دوام سبت وأحد</option>
                 </select>
 
-                <!-- قائمة اختر المكان مع التعديل الجديد -->
                 <select id="location-select">
                     <option value="" disabled selected>اختر المكان</option>
                     <option value="الساحات الرئيسية">الساحات الرئيسية</option>
@@ -215,7 +259,6 @@
                     <option value="الدرج المزدوج">الدرج المزدوج</option>
                 </select>
 
-                <!-- قائمة اختر المهمة مع إضافة الدرج المفرد والمزدوج -->
                 <select id="task-select">
                     <option value="" disabled selected>اختر المهمة</option>
                     <option value="الصف">الصف</option>
@@ -239,9 +282,18 @@
             </div>
 
             <div class="upload-section">
-                <input type="file" id="file-input" accept="image/*" multiple capture="environment" onchange="handleFileSelect(event)">
-                <label for="file-input" class="btn-upload">تحميل الصور (الكاميرا / المعرض)</label>
+                <!-- خيار التصوير المباشر مع استمرار الإضافة -->
+                <input type="file" id="file-input-camera" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
+                <label for="file-input-camera" class="btn-upload camera">📸 التقاط صورة بالكاميرا</label>
+
+                <!-- خيار رفع عدة صور من الاستديو -->
+                <input type="file" id="file-input-gallery" accept="image/*" multiple onchange="handleFileSelect(event)">
+                <label for="file-input-gallery" class="btn-upload">🖼️ اختيار من المعرض</label>
+
                 <div class="file-info" id="file-count">لم يتم اختيار أي صور بعد (الحد الأقصى 10 صور)</div>
+                
+                <!-- عرض الصور المحددة -->
+                <div class="preview-grid" id="preview-grid"></div>
             </div>
 
             <div class="submit-btn-wrapper">
@@ -267,13 +319,51 @@
 
         function handleFileSelect(event) {
             const files = Array.from(event.target.files);
-            if (files.length > 10) {
-                alert("يمكنك اختيار 10 صور كحد أقصى فقط.");
-                event.target.value = "";
-                return;
+            
+            for (let file of files) {
+                if (selectedFiles.length >= 10) {
+                    alert("وصلت للحد الأقصى المسموح به (10 صور).");
+                    break;
+                }
+                selectedFiles.push(file);
             }
-            selectedFiles = files;
-            document.getElementById('file-count').innerText = `تم اختيار ${selectedFiles.length} صورة من أصل 10.`;
+
+            // إفراغ الخانات لتمكين التقاط صورة جديدة من نفس الزر
+            event.target.value = "";
+
+            updatePreviewUI();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updatePreviewUI();
+        }
+
+        function updatePreviewUI() {
+            const countLabel = document.getElementById('file-count');
+            const grid = document.getElementById('preview-grid');
+            
+            countLabel.innerText = selectedFiles.length > 0 
+                ? `تم التقاط/اختيار ${selectedFiles.length} صورة من أصل 10`
+                : "لم يتم اختيار أي صور بعد (الحد الأقصى 10 صور)";
+
+            grid.innerHTML = "";
+            selectedFiles.forEach((file, index) => {
+                const itemContainer = document.createElement('div');
+                itemContainer.className = 'preview-item';
+
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '✕';
+                removeBtn.onclick = () => removeFile(index);
+
+                itemContainer.appendChild(img);
+                itemContainer.appendChild(removeBtn);
+                grid.appendChild(itemContainer);
+            });
         }
 
         function resizeImage(file, maxWidth = 800, quality = 0.5) {
@@ -310,7 +400,7 @@
 
         async function uploadDataToDrive() {
             if (selectedFiles.length === 0) {
-                alert("يرجى اختيار أو التقاط صورة واحدة على الأقل أولاً.");
+                alert("يرجى التقاط أو اختيار صورة واحدة على الأقل أولاً.");
                 return;
             }
 
@@ -358,7 +448,8 @@
             alert("تم الإرسال وحفظ المجلدات والصور بنجاح في Google Drive!");
             isSubmitting = false;
             selectedFiles = [];
-            document.getElementById('file-count').innerText = "لم يتم اختيار أي صور بعد (الحد الأقصى 10 صور)";
+            updatePreviewUI();
+            
             const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = false;
             submitBtn.innerText = "إرسال التقييم إلى Drive";
