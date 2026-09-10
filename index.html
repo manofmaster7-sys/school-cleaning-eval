@@ -253,12 +253,12 @@
     <div id="task-page" class="page">
         <div class="form-container">
             <div class="controls-wrapper">
-                <select id="shift-select"></select>
-                <select id="location-select"></select>
-                <select id="task-select"></select>
-                <input type="text" id="custom-note">
-                <input type="text" id="supervisor-name" required>
-                <input type="text" id="students-names" required>
+                <select id="shiftSelect"></select>
+                <select id="locationSelect"></select>
+                <select id="taskSelect"></select>
+                <input type="text" id="noteInput">
+                <input type="text" id="supervisorInput" required>
+                <input type="text" id="studentsInput" required>
             </div>
 
             <div class="upload-section">
@@ -270,16 +270,10 @@
             </div>
 
             <div class="submit-btn-wrapper">
-                <button class="btn-submit" id="submit-btn" onclick="uploadDataToDrive()">إرسال التقييم إلى Drive</button>
+                <button class="btn-submit" id="submitBtn" onclick="submitAssessment()">إرسال التقييم</button>
             </div>
         </div>
     </div>
-
-    <!-- نموذج وiframe مخفيان لضمان الرفع دون حظر المتصفح -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting){onUploadComplete();}"></iframe>
-    <form id="hidden-form" action="https://script.google.com/macros/s/AKfycbwwpnwve5SsEGvMlTslXLacNPyoXLtwEvshXsi5zJk1yTNpV83c22FK-Y_OIn11VIw4Mg/exec" method="POST" target="hidden_iframe" style="display:none;">
-        <input type="hidden" name="payload" id="payload-input">
-    </form>
 
     <script>
         let selectedFiles = [];
@@ -292,7 +286,7 @@
                 headerSubtitle: "للعام الدراسي 2026 - 2027",
                 btnMain: "مهمة جديدة",
                 btnUpload: "📸 التقاط صورة بالكاميرا",
-                btnSubmit: "إرسال التقييم إلى Drive",
+                btnSubmit: "إرسال التقييم",
                 btnSubmitting: "جاري الإرسال...",
                 supervisorPlaceholder: "اسم المشرف (مطلوب) *",
                 studentsPlaceholder: "أسماء الطلاب المشرفين (مطلوب) *",
@@ -303,7 +297,6 @@
                 msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
                 msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
                 msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
-                msgSuccess: "تم الإرسال وحفظ المستند النصي والصور بنجاح في Google Drive!",
                 shifts: [
                     { val: "", text: "اختر الدوام", disabled: true },
                     { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي" },
@@ -346,7 +339,7 @@
                 headerSubtitle: "2026 - 2027 Eğitim Öğretim Yılı",
                 btnMain: "Yeni Görev",
                 btnUpload: "📸 Kamera ile Fotoğraf Çek",
-                btnSubmit: "Değerlendirmeyi Drive'a Gönder",
+                btnSubmit: "Değerlendirmeyi Gönder",
                 btnSubmitting: "Gönderiliyor...",
                 supervisorPlaceholder: "Gözetmen Adı (Zorunlu) *",
                 studentsPlaceholder: "Gözetmen Öğrencilerin Adları (Zorunlu) *",
@@ -357,7 +350,6 @@
                 msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
                 msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
                 msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
-                msgSuccess: "Gönderildi ve metin belgesi ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
                 shifts: [
                     { val: "", text: "Vardiya Seçin", disabled: true },
                     { val: "دوام القيد الرسمي", text: "Resmi Kayıt Vardiyası" },
@@ -420,21 +412,21 @@
             document.getElementById('txt-btn-main').innerText = t.btnMain;
             document.getElementById('txt-btn-upload').innerText = t.btnUpload;
             
-            const submitBtn = document.getElementById('submit-btn');
+            const submitBtn = document.getElementById('submitBtn');
             if(!isSubmitting) {
                 submitBtn.innerText = t.btnSubmit;
             } else {
                 submitBtn.innerText = t.btnSubmitting;
             }
 
-            document.getElementById('supervisor-name').placeholder = t.supervisorPlaceholder;
-            document.getElementById('students-names').placeholder = t.studentsPlaceholder;
-            document.getElementById('custom-note').placeholder = t.customNotePlaceholder;
+            document.getElementById('supervisorInput').placeholder = t.supervisorPlaceholder;
+            document.getElementById('studentsInput').placeholder = t.studentsPlaceholder;
+            document.getElementById('noteInput').placeholder = t.customNotePlaceholder;
             document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'TR' : 'AR';
 
-            populateSelect('shift-select', t.shifts);
-            populateSelect('location-select', t.locations);
-            populateSelect('task-select', t.tasks);
+            populateSelect('shiftSelect', t.shifts);
+            populateSelect('locationSelect', t.locations);
+            populateSelect('taskSelect', t.tasks);
 
             updatePreviewUI();
         }
@@ -530,14 +522,17 @@
             });
         }
 
-        async function uploadDataToDrive() {
+        // دالة إرسال النموذج المربوطة بزر الإرسال
+        async function submitAssessment() {
             const t = translations[currentLang];
+            const submitBtn = document.getElementById("submitBtn");
 
-            const supervisor = document.getElementById('supervisor-name').value.trim();
-            const students = document.getElementById('students-names').value.trim();
-            const shift = document.getElementById('shift-select').value;
-            const location = document.getElementById('location-select').value;
-            const task = document.getElementById('task-select').value;
+            const shift = document.getElementById("shiftSelect").value;
+            const location = document.getElementById("locationSelect").value;
+            const task = document.getElementById("taskSelect").value;
+            const supervisor = document.getElementById("supervisorInput").value.trim();
+            const students = document.getElementById("studentsInput").value.trim();
+            const note = document.getElementById("noteInput").value;
 
             if (!supervisor || !students || !shift || !location || !task) {
                 alert(t.msgFillFields);
@@ -549,55 +544,57 @@
                 return;
             }
 
-            const submitBtn = document.getElementById('submit-btn');
             submitBtn.disabled = true;
             submitBtn.innerText = t.btnSubmitting;
+            isSubmitting = true;
 
             try {
-                const compressedFiles = await Promise.all(
+                // ضغط الصور وتحويلها إلى Base64
+                const uploadedImagesArray = await Promise.all(
                     selectedFiles.map(file => resizeImage(file))
                 );
 
-                const payload = {
-                    supervisor: supervisor,
-                    students: students,
+                // استخراج القيم من عناصر مدخلات HTML
+                const payloadData = {
                     shift: shift,
                     location: location,
                     task: task,
-                    note: document.getElementById('custom-note').value,
-                    files: compressedFiles
+                    supervisor: supervisor,
+                    students: students,
+                    note: note,
+                    files: uploadedImagesArray
                 };
 
-                document.getElementById('payload-input').value = JSON.stringify(payload);
-                isSubmitting = true;
+                // رابط التطبيق المنشور من Google Apps Script
+                const scriptUrl = "ضع_رابط_تطبيق_الويب_الخاص_بـ_Apps_Script_هنا";
 
-                document.getElementById('hidden-form').submit();
+                const response = await fetch(scriptUrl, {
+                    method: "POST",
+                    body: JSON.stringify(payloadData)
+                });
 
+                const result = await response.json();
+                if (result.status === "success") {
+                    alert("تم إرسال التقييم وحفظ الملفات بنجاح!");
+                    
+                    // إعادة ضبط الاستمارة بعد الإرسال الناجح
+                    selectedFiles = [];
+                    document.getElementById('supervisorInput').value = '';
+                    document.getElementById('studentsInput').value = '';
+                    document.getElementById('noteInput').value = '';
+                    updatePreviewUI();
+                    navigateTo('home-page');
+                } else {
+                    alert("حدث خطأ أثناء الإرسال: " + result.message);
+                }
             } catch (err) {
                 console.error(err);
-                alert(t.msgError);
+                alert("تعذر الإرسال، يرجى التحقق من الاتصال بالإنترنت.");
+            } finally {
+                isSubmitting = false;
                 submitBtn.disabled = false;
                 submitBtn.innerText = t.btnSubmit;
-                isSubmitting = false;
             }
-        }
-
-        function onUploadComplete() {
-            const t = translations[currentLang];
-            alert(t.msgSuccess);
-            isSubmitting = false;
-            selectedFiles = [];
-            
-            document.getElementById('supervisor-name').value = '';
-            document.getElementById('students-names').value = '';
-            document.getElementById('custom-note').value = '';
-
-            updatePreviewUI();
-            
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = false;
-            submitBtn.innerText = t.btnSubmit;
-            navigateTo('home-page');
         }
 
         window.onload = function() {
