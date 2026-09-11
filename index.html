@@ -4,438 +4,619 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تقييم نظافة مدرسة المناهل الدولية</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Cairo & Tajawal) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #0b5ed7;
-            --bg-color: #f4f6f9;
-            --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-
         body {
-            font-family: 'Cairo', 'Tajawal', sans-serif;
-            background-color: var(--bg-color);
+            background-color: #f4f7f6;
             color: #333;
-            padding-bottom: 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-
-        .header-card {
-            background: linear-gradient(135deg, #0d6efd 0%, #0a48a3 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 25px 20px;
-            margin-bottom: 25px;
-            box-shadow: var(--card-shadow);
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+            position: relative;
         }
-
-        .lang-switch {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+        .logo-box {
+            width: 120px;
+            display: flex;
+            align-items: center;
+        }
+        .logo-box.right { justify-content: flex-start; }
+        .logo-box.left { justify-content: flex-end; }
+        .logo {
+            max-height: 75px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .header-title-container {
+            text-align: center;
+            flex: 1;
+        }
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a5b8c;
+            line-height: 1.2;
+        }
+        .header-subtitle {
+            font-size: 15px;
+            color: #555;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .lang-btn {
+            background-color: #1a5b8c;
             color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-left: 10px;
+        }
+        .lang-btn:hover {
+            background-color: #14446a;
+        }
+        .page {
+            display: none;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+        .active-page { display: block; }
+
+        #home-page {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 180px; 
+        }
+        #home-page.active-page { display: flex; }
+        
+        .btn-main {
+            background-color: #28a745;
+            color: white;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
         }
-
-        .lang-switch:hover {
+        .btn-main:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .form-container {
             background: white;
-            color: var(--primary-color);
-        }
-
-        .form-card {
-            background: #ffffff;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--card-shadow);
-            border: none;
-        }
-
-        .form-label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #444;
-        }
-
-        .form-control, .form-select {
-            border-radius: 8px;
-            padding: 10px 15px;
-            border: 1px solid #ced4da;
-            transition: border-color 0.2s;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-        }
-
-        .preview-card {
-            position: relative;
+            padding: 30px;
             border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #ddd;
-            height: 100px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-top: 20px;
+        }
+        .controls-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        select, input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            flex: 1;
+            min-width: 200px;
+            outline: none;
+        }
+        select:focus, input[type="text"]:focus {
+            border-color: #1a5b8c;
+        }
+        .upload-section {
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+        }
+        .btn-upload {
+            background-color: #17a2b8;
+            color: white;
+            padding: 14px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: bold;
+        }
+        #file-input-camera { display: none; }
+        
+        .file-info {
+            margin-top: 12px;
+            font-size: 15px;
+            color: #666;
+            font-weight: 500;
         }
 
-        .preview-card img {
+        .preview-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .preview-item {
+            position: relative;
+            width: 85px;
+            height: 85px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #ddd;
+        }
+        .preview-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .preview-card .remove-btn {
+        .preview-item .remove-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 2px;
+            right: 2px;
             background: rgba(220, 53, 69, 0.85);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            line-height: 24px;
-            text-align: center;
+            width: 22px;
+            height: 22px;
             font-size: 12px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
+        .submit-btn-wrapper {
+            margin-top: 25px;
+            text-align: center;
+        }
         .btn-submit {
-            background-color: var(--primary-color);
+            background-color: #1a5b8c;
+            color: white;
+            padding: 14px 45px;
+            font-size: 18px;
             border: none;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-submit:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
 
-        .btn-submit:hover {
-            background-color: var(--secondary-color);
+        @media (max-width: 768px) {
+            header { padding: 10px; }
+            .logo-box { width: 60px; }
+            .logo { max-height: 45px; }
+            .header-title { font-size: 14px; }
+            .header-subtitle { font-size: 10px; }
+            .lang-btn { padding: 5px 10px; font-size: 13px; margin-left: 5px; }
+            #home-page { padding-top: 120px; }
+            .btn-main { font-size: 20px; padding: 16px 35px; }
+            .controls-wrapper { flex-direction: column; }
+            select, input[type="text"] { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-<div class="container mt-4" style="max-width: 720px;">
-    
-    <!-- Header Section -->
-    <div class="header-card text-center relative">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="badge bg-light text-primary fs-6 px-3 py-2" id="schoolBadge">مدرسة المناهل الدولية</span>
-            <button type="button" class="lang-switch" onclick="toggleLanguage()">
-                <i class="fa-solid fa-globe me-1"></i> <span id="langBtnText">Türkçe</span>
-            </button>
+    <header>
+        <div class="logo-box right">
+            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/100x70?text=شعار+المدرسة'">
         </div>
-        <h2 class="fw-bold mb-2" id="formTitle">تقييم نظافة المناهل الدولية</h2>
-        <p class="mb-0 text-white-50 fs-6" id="formSubtitle">نظام التقييم الإداري لنظافة المرافق والممرات</p>
+        <div class="header-title-container">
+            <div class="header-title" id="txt-header-title">تقييم نظافة المدرسة</div>
+            <div class="header-subtitle" id="txt-header-subtitle">للعام الدراسي 2026 - 2027</div>
+        </div>
+        <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">TR</button>
+        <div class="logo-box left">
+            <img src="assoc-logo.png" alt="شعار الجمعية" class="logo" onerror="this.src='https://via.placeholder.com/100x70?text=شعار+الجمعية'">
+        </div>
+    </header>
+
+    <div id="home-page" class="page active-page">
+        <button class="btn-main" id="txt-btn-main" onclick="navigateTo('task-page')">مهمة جديدة</button>
     </div>
 
-    <!-- Form Section -->
-    <div class="form-card">
-        <form id="evaluationForm" action="https://script.google.com/macros/s/AKfycbz_XXXXXXXXXXXXXX/exec" method="POST" target="hidden_iframe">
-            
-            <!-- Hidden JSON Field -->
-            <input type="hidden" name="formData" id="formDataInput">
-
-            <!-- Evaluator Name -->
-            <div class="mb-3">
-                <label class="form-label" id="lblEvaluator"><i class="fa-solid fa-user me-2 text-primary"></i>اسم المقيم</label>
-                <select class="form-select" id="evaluatorName" required>
-                    <option value="" selected disabled>اختر اسم المقيم...</option>
-                </select>
+    <div id="task-page" class="page">
+        <div class="form-container">
+            <div class="controls-wrapper">
+                <select id="shift-select"></select>
+                <select id="location-select"></select>
+                <select id="task-select"></select>
+                <input type="text" id="custom-note">
+                <input type="text" id="supervisor-name" required>
+                <input type="text" id="students-names" required>
             </div>
 
-            <!-- Shift Period -->
-            <div class="mb-3">
-                <label class="form-label" id="lblPeriod"><i class="fa-solid fa-clock me-2 text-primary"></i>الفترة الزمنية</label>
-                <select class="form-select" id="shiftPeriod" required>
-                    <option value="" selected disabled>اختر الفترة...</option>
-                </select>
+            <div class="upload-section">
+                <input type="file" id="file-input-camera" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
+                <label for="file-input-camera" class="btn-upload" id="txt-btn-upload">📸 التقاط صورة بالكاميرا</label>
+
+                <div class="file-info" id="file-count">لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)</div>
+                <div class="preview-grid" id="preview-grid"></div>
             </div>
 
-            <!-- Location -->
-            <div class="mb-3">
-                <label class="form-label" id="lblLocation"><i class="fa-solid fa-location-dot me-2 text-primary"></i>الموقع / المكان</label>
-                <select class="form-select" id="location" required>
-                    <option value="" selected disabled>اختر المكان...</option>
-                </select>
+            <div class="submit-btn-wrapper">
+                <button class="btn-submit" id="submit-btn" onclick="uploadDataToDrive()">إرسال التقييم إلى Drive</button>
             </div>
-
-            <!-- Cleaning Status -->
-            <div class="mb-3">
-                <label class="form-label" id="lblStatus"><i class="fa-solid fa-sparkles me-2 text-primary"></i>حالة النظافة</label>
-                <select class="form-select" id="cleaningStatus" required>
-                    <option value="" selected disabled>اختر حالة النظافة...</option>
-                </select>
-            </div>
-
-            <!-- Additional Notes -->
-            <div class="mb-3">
-                <label class="form-label" id="lblNotes"><i class="fa-solid fa-comment-dots me-2 text-primary"></i>ملاحظات إضافية</label>
-                <textarea class="form-control" id="additionalNotes" rows="3" placeholder="أدخل أي ملاحظات إن وجدت..."></textarea>
-            </div>
-
-            <!-- Image Capture & Upload -->
-            <div class="mb-4">
-                <label class="form-label" id="lblImages"><i class="fa-solid fa-camera me-2 text-primary"></i>التقاط / رفع الصور (الحد الأقصى 10)</label>
-                <div class="d-grid gap-2 mb-3">
-                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('cameraInput').click()">
-                        <i class="fa-solid fa-camera me-2"></i><span id="btnCapture">التقاط صورة عبر الكاميرا</span>
-                    </button>
-                    <input type="file" id="cameraInput" accept="image/*" capture="environment" multiple style="display: none;" onchange="handleImageUpload(event)">
-                </div>
-
-                <!-- Images Preview Container -->
-                <div class="row g-2" id="imagesPreviewContainer"></div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-submit" id="btnSubmit">
-                    <i class="fa-solid fa-paper-plane me-2"></i><span id="btnSubmitText">إرسال التقييم</span>
-                </button>
-            </div>
-
-        </form>
+        </div>
     </div>
-</div>
 
-<!-- Hidden iFrame for Form Submission -->
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){onSuccessResponse();}"></iframe>
+    <!-- نموذج وiframe مخفيان لضمان الرفع دون حظر المتصفح -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting){onUploadComplete();}"></iframe>
+    <form id="hidden-form" action="https://script.google.com/macros/s/AKfycbwwpnwve5SsEGvMlTslXLacNPyoXLtwEvshXsi5zJk1yTNpV83c22FK-Y_OIn11VIw4Mg/exec" method="POST" target="hidden_iframe" style="display:none;">
+        <input type="hidden" name="payload" id="payload-input">
+    </form>
 
-<!-- Bootstrap 5 JS Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedFiles = [];
+        let isSubmitting = false;
+        let currentLang = 'ar';
 
-<script>
-    let currentLang = 'ar';
-    let submitted = false;
-    let imagesList = [];
-
-    // Translations Dictionary
-    const translations = {
-        ar: {
-            schoolBadge: "مدرسة المناهل الدولية",
-            formTitle: "تقييم نظافة المناهل الدولية",
-            formSubtitle: "نظام التقييم الإداري لنظافة المرافق والممرات",
-            lblEvaluator: "اسم المقيم",
-            lblPeriod: "الفترة الزمنية",
-            lblLocation: "الموقع / المكان",
-            lblStatus: "حالة النظافة",
-            lblNotes: "ملاحظات إضافية",
-            lblImages: "التقاط / رفع الصور (الحد الأقصى 10)",
-            btnCapture: "التقاط صورة عبر الكاميرا",
-            btnSubmitText: "إرسال التقييم",
-            langBtnText: "Türkçe",
-            phNotes: "أدخل أي ملاحظات إن وجدت...",
-            evaluators: ["زياد زمزم", "عمر أوزمان", "محمد أحمد"],
-            periods: [
-                { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي (08:00 - 15:00)" },
-                { val: "الدوام الصباحي", text: "الدوام الصباحي (08:00 - 11:30)" },
-                { val: "الدوام المسائي", text: "الدوام المسائي (11:30 - 15:00)" }
-            ],
-            locations: ["الممرات - الطابق الأول", "الممرات - الطابق الثاني", "دورات المياه - بنين", "دورات المياه - بنات", "الساحة الخارجية", "الإدارة"],
-            statuses: ["ممتاز جداً", "جيد جداً", "مقبول", "غير مقبول / يحتاج تنظيف فوراً"]
-        },
-        tr: {
-            schoolBadge: "El Menahil Uluslararası Okulu",
-            formTitle: "El Menahil Temizlik Değerlendirmesi",
-            formSubtitle: "Tesis ve Koridor Temizliği Yönetim Değerlendirme Sistemi",
-            lblEvaluator: "Değerlendiren Kişi",
-            lblPeriod: "Zaman Dilimi",
-            lblLocation: "Konum / Yer",
-            lblStatus: "Temizlik Durumu",
-            lblNotes: "Ek Notlar",
-            lblImages: "Fotoğraf Çek / Yükle (Maksimum 10)",
-            btnCapture: "Kamera ile Fotoğraf Çek",
-            btnSubmitText: "Değerlendirmeyi Gönder",
-            langBtnText: "العربية",
-            phNotes: "Varsa notlarınızı giriniz...",
-            evaluators: ["Ziad Zamzam", "Omar Ozman", "Mohamed Ahmed"],
-            periods: [
-                { val: "دوام القيد الرسمي", text: "Resmi Mesai (08:00 - 15:00)" },
-                { val: "الدوام الصباحي", text: "Sabah Vardiyası (08:00 - 11:30)" },
-                { val: "الدوام المسائي", text: "Öğle Vardiyası (11:30 - 15:00)" }
-            ],
-            locations: ["Koridorlar - 1. Kat", "Koridorlar - 2. Kat", "Tuvaletler - Erkek", "Tuvaletler - Kız", "Dış Bahçe", "Yönetيم / İdare"],
-            statuses: ["Çok İyi", "İyi", "Kabul Edilebilir", "Yetersiz / Acil Temizlik Gerekli"]
-        }
-    };
-
-    // Populate Dropdown Options
-    function populateDropdowns() {
-        const langData = translations[currentLang];
-
-        // Evaluators
-        const evalSelect = document.getElementById('evaluatorName');
-        evalSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر اسم المقيم...' : 'Değerlendiren seçiniz...'}</option>`;
-        langData.evaluators.forEach(name => {
-            evalSelect.innerHTML += `<option value="${name}">${name}</option>`;
-        });
-
-        // Shift Periods
-        const periodSelect = document.getElementById('shiftPeriod');
-        periodSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر الفترة...' : 'Vardiya seçiniz...'}</option>`;
-        langData.periods.forEach(p => {
-            periodSelect.innerHTML += `<option value="${p.val}">${p.text}</option>`;
-        });
-
-        // Locations
-        const locSelect = document.getElementById('location');
-        locSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر المكان...' : 'Konum seçiniz...'}</option>`;
-        langData.locations.forEach(loc => {
-            locSelect.innerHTML += `<option value="${loc}">${loc}</option>`;
-        });
-
-        // Statuses
-        const statusSelect = document.getElementById('cleaningStatus');
-        statusSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر حالة النظافة...' : 'Durum seçiniz...'}</option>`;
-        langData.statuses.forEach(st => {
-            statusSelect.innerHTML += `<option value="${st}">${st}</option>`;
-        });
-    }
-
-    // Toggle Language AR / TR
-    function toggleLanguage() {
-        currentLang = currentLang === 'ar' ? 'tr' : 'ar';
-        document.documentElement.lang = currentLang;
-        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-
-        const data = translations[currentLang];
-
-        document.getElementById('schoolBadge').innerText = data.schoolBadge;
-        document.getElementById('formTitle').innerText = data.formTitle;
-        document.getElementById('formSubtitle').innerText = data.formSubtitle;
-        document.getElementById('lblEvaluator').innerHTML = `<i class="fa-solid fa-user me-2 text-primary"></i>${data.lblEvaluator}`;
-        document.getElementById('lblPeriod').innerHTML = `<i class="fa-solid fa-clock me-2 text-primary"></i>${data.lblPeriod}`;
-        document.getElementById('lblLocation').innerHTML = `<i class="fa-solid fa-location-dot me-2 text-primary"></i>${data.lblLocation}`;
-        document.getElementById('lblStatus').innerHTML = `<i class="fa-solid fa-sparkles me-2 text-primary"></i>${data.lblStatus}`;
-        document.getElementById('lblNotes').innerHTML = `<i class="fa-solid fa-comment-dots me-2 text-primary"></i>${data.lblNotes}`;
-        document.getElementById('lblImages').innerHTML = `<i class="fa-solid fa-camera me-2 text-primary"></i>${data.lblImages}`;
-        document.getElementById('btnCapture').innerText = data.btnCapture;
-        document.getElementById('btnSubmitText').innerText = data.btnSubmitText;
-        document.getElementById('langBtnText').innerText = data.langBtnText;
-        document.getElementById('additionalNotes').placeholder = data.phNotes;
-
-        populateDropdowns();
-    }
-
-    // Image Compression and Handling
-    function handleImageUpload(event) {
-        const files = event.target.files;
-        if (!files || files.length === 0) return;
-
-        if (imagesList.length + files.length > 10) {
-            alert(currentLang === 'ar' ? 'الحد الأقصى المسموح به هو 10 صور فقط.' : 'Maksimum 10 fotoğraf yükleyebilirsiniz.');
-            return;
-        }
-
-        Array.from(files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = new Image();
-                img.onload = function () {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    // Resize to max 800px width/height while maintaining ratio
-                    let width = img.width;
-                    let height = img.height;
-                    const maxDim = 800;
-
-                    if (width > height && width > maxDim) {
-                        height *= maxDim / width;
-                        width = maxDim;
-                    } else if (height > maxDim) {
-                        width *= maxDim / height;
-                        height = maxDim;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    // Compress to JPEG with 0.5 quality
-                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.5);
-                    imagesList.push(compressedBase64);
-                    renderPreviews();
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // Render Preview Thumbnails
-    function renderPreviews() {
-        const container = document.getElementById('imagesPreviewContainer');
-        container.innerHTML = '';
-
-        imagesList.forEach((src, index) => {
-            const col = document.createElement('div');
-            col.className = 'col-3 col-md-2';
-            col.innerHTML = `
-                <div class="preview-card">
-                    <img src="${src}" alt="Captured Image">
-                    <button type="button" class="remove-btn" onclick="removeImage(${index})">&times;</button>
-                </div>
-            `;
-            container.appendChild(col);
-        });
-    }
-
-    // Remove Image from Array
-    function removeImage(index) {
-        imagesList.splice(index, 1);
-        renderPreviews();
-    }
-
-    // Prepare JSON & Submit Form
-    document.getElementById('evaluationForm').addEventListener('submit', function (e) {
-        submitted = true;
-
-        const payload = {
-            evaluator: document.getElementById('evaluatorName').value,
-            period: document.getElementById('shiftPeriod').value,
-            location: document.getElementById('location').value,
-            status: document.getElementById('cleaningStatus').value,
-            notes: document.getElementById('additionalNotes').value,
-            images: imagesList,
-            timestamp: new Date().toISOString()
+        const translations = {
+            ar: {
+                headerTitle: "تقييم نظافة المدرسة",
+                headerSubtitle: "للعام الدراسي 2026 - 2027",
+                btnMain: "مهمة جديدة",
+                btnUpload: "📸 التقاط صورة بالكاميرا",
+                btnSubmit: "إرسال التقييم إلى Drive",
+                btnSubmitting: "جاري الإرسال...",
+                supervisorPlaceholder: "اسم المشرف (مطلوب) *",
+                studentsPlaceholder: "أسماء الطلاب المشرفين (مطلوب) *",
+                customNotePlaceholder: "ملاحظات إضافية (اختياري)...",
+                fileCountZero: "لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)",
+                fileCountText: (count) => `تم التقاط ${count} صورة من أصل 10`,
+                msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
+                msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
+                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
+                msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
+                msgSuccess: "تم الإرسال وحفظ المستند النصي والصور بنجاح في Google Drive!",
+                shifts: [
+                    { val: "", text: "اختر الدوام", disabled: true },
+                    { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي" },
+                    { val: "الدوام المسائي", text: "الدوام المسائي" },
+                    { val: "دوام سبت وأحد", text: "دوام سبت وأحد" }
+                ],
+                locations: [
+                    { val: "", text: "اختر المكان", disabled: true },
+                    { val: "الساحات الرئيسية", text: "الساحات الرئيسية" },
+                    { val: "الطابق الأول", text: "الطابق الأول" },
+                    { val: "الطابق الثاني", text: "الطابق الثاني" },
+                    { val: "الطابق الثالث", text: "الطابق الثالث" },
+                    { val: "الطابق الرابع", text: "الطابق الرابع" },
+                    { val: "الطابق الخامس", text: "الطابق الخامس" },
+                    { val: "الطابق السادس", text: "الطابق السادس" },
+                    { val: "الدرج المفرد", text: "الدرج المفرد" },
+                    { val: "الدرج المزدوج", text: "الدرج المزدوج" }
+                ],
+                tasks: [
+                    { val: "", text: "اختر المهمة", disabled: true },
+                    { val: "الصف", text: "الصف" },
+                    { val: "ساحة الطابق", text: "ساحة الطابق" },
+                    { val: "حمامات الطابق", text: "حمامات الطابق" },
+                    { val: "غرفة المعلمين", text: "غرفة المعلمين" },
+                    { val: "بلكون", text: "بلكون" },
+                    { val: "غرفة التوجيه", text: "غرفة التوجيه" },
+                    { val: "المرسم", text: "المرسم" },
+                    { val: "مختبر الحاسوب", text: "مختبر الحاسوب" },
+                    { val: "المكتبة", text: "المكتبة" },
+                    { val: "غرفة الألعاب", text: "غرفة الألعاب" },
+                    { val: "مختبر اللغة التركية", text: "مختبر اللغة التركية" },
+                    { val: "المعرض", text: "المعرض" },
+                    { val: "غرفة الطباعة", text: "غرفة الطباعة" },
+                    { val: "الدرج المفرد", text: "الدرج المفرد" },
+                    { val: "الدرج المزدوج", text: "الدرج المزدوج" }
+                ]
+            },
+            tr: {
+                headerTitle: "Okul Temizlik Değerlendirmesi",
+                headerSubtitle: "2026 - 2027 Eğitim Öğretim Yılı",
+                btnMain: "Yeni Görev",
+                btnUpload: "📸 Kamera ile Fotoğraf Çek",
+                btnSubmit: "Değerlendirmeyi Drive'a Gönder",
+                btnSubmitting: "Gönderiliyor...",
+                supervisorPlaceholder: "Gözetmen Adı (Zorunlu) *",
+                studentsPlaceholder: "Gözetmen Öğrencilerin Adları (Zorunlu) *",
+                customNotePlaceholder: "Ek Notlar (İsteğe bağlı)...",
+                fileCountZero: "Henüz fotoğraf çekilmedi (Maksimum 10 fotoğraf)",
+                fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
+                msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
+                msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
+                msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
+                msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
+                msgSuccess: "Gönderildi ve metin belgesi ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
+                shifts: [
+                    { val: "", text: "Vardiya Seçin", disabled: true },
+                    { val: "دوام القيد الرسمي", text: "Resmi Kayıt Vardiyası" },
+                    { val: "الدوام المسائي", text: "Akşam Vardiyası" },
+                    { val: "دوام سبت وأحد", text: "Hafta Sonu Vardiyası (Cts-Paz)" }
+                ],
+                locations: [
+                    { val: "", text: "Konum Seçin", disabled: true },
+                    { val: "الساحات الرئيسية", text: "Ana Meydanlar / Bahçeler" },
+                    { val: "الطابق الأول", text: "1. Kat" },
+                    { val: "الطابق الثاني", text: "2. Kat" },
+                    { val: "الطابق الثالث", text: "3. Kat" },
+                    { val: "الطابق الرابع", text: "4. Kat" },
+                    { val: "الطابق الخامس", text: "5. Kat" },
+                    { val: "الطابق السادس", text: "6. Kat" },
+                    { val: "الدرج المفرد", text: "Tekli Merdiven" },
+                    { val: "الدرج المزدوج", text: "Çiftli Merdiven" }
+                ],
+                tasks: [
+                    { val: "", text: "Görev Seçin", disabled: true },
+                    { val: "الصف", text: "Sınıf" },
+                    { val: "ساحة الطابق", text: "Kat Koridoru / Alanı" },
+                    { val: "حمامات الطابق", text: "Kat Tuvaletleri" },
+                    { val: "غرفة المعلمين", text: "Öğretmenler Odası" },
+                    { val: "بلكون", text: "Balkon" },
+                    { val: "غرفة التوجيه", text: "Rehberlik Odası" },
+                    { val: "المرسم", text: "Resim Atölyesi" },
+                    { val: "مختبر الحاسوب", text: "Bilgisayar Laboratuvarı" },
+                    { val: "المكتبة", text: "Kütüphane" },
+                    { val: "غرفة الألعاب", text: "Oyun Odası" },
+                    { val: "مختبر اللغة التركية", text: "Türkçe Laboratuvarı" },
+                    { val: "المعرض", text: "Sergi Alanı" },
+                    { val: "غرفة الطباعة", text: "Baskı / Fotokopi Odası" },
+                    { val: "الدرج المفرد", text: "Tekli Merdiven" },
+                    { val: "الدرج المزدوج", text: "Çiftli Merdiven" }
+                ]
+            }
         };
 
-        document.getElementById('formDataInput').value = JSON.stringify(payload);
-        
-        // Show Loading State
-        const btn = document.getElementById('btnSubmit');
-        btn.disabled = true;
-        btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status"></span>${currentLang === 'ar' ? 'جاري الإرسال...' : 'Gönderiliyor...'}`;
-    });
+        function populateSelect(selectId, items) {
+            const select = document.getElementById(selectId);
+            const currentVal = select.value;
+            select.innerHTML = "";
+            items.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.val;
+                opt.textContent = item.text;
+                if (item.disabled) opt.disabled = true;
+                select.appendChild(opt);
+            });
+            
+            // احتفاظ بالخيار المحدد إن وجد
+            const hasOption = Array.from(select.options).some(opt => opt.value === currentVal);
+            if (hasOption) {
+                select.value = currentVal;
+            } else {
+                select.selectedIndex = 0;
+            }
+        }
 
-    // Callback on iFrame Loaded (Success)
-    function onSuccessResponse() {
-        alert(currentLang === 'ar' ? 'تم إرسال التقييم بنجاح! شكراً لجهودكم.' : 'Değerlendirme başarıyla gönderildi! Teşekkür ederiz.');
-        document.getElementById('evaluationForm').reset();
-        imagesList = [];
-        renderPreviews();
+        function updateLanguageUI() {
+            const t = translations[currentLang];
 
-        const btn = document.getElementById('btnSubmit');
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane me-2"></i><span id="btnSubmitText">${translations[currentLang].btnSubmitText}</span>`;
-        submitted = false;
-    }
+            document.getElementById('txt-header-title').innerText = t.headerTitle;
+            document.getElementById('txt-header-subtitle').innerText = t.headerSubtitle;
+            document.getElementById('txt-btn-main').innerText = t.btnMain;
+            document.getElementById('txt-btn-upload').innerText = t.btnUpload;
+            
+            const submitBtn = document.getElementById('submit-btn');
+            if(!isSubmitting) {
+                submitBtn.innerText = t.btnSubmit;
+            } else {
+                submitBtn.innerText = t.btnSubmitting;
+            }
 
-    // Initialize Page
-    populateDropdowns();
-</script>
+            document.getElementById('supervisor-name').placeholder = t.supervisorPlaceholder;
+            document.getElementById('students-names').placeholder = t.studentsPlaceholder;
+            document.getElementById('custom-note').placeholder = t.customNotePlaceholder;
+            document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'TR' : 'AR';
 
+            populateSelect('shift-select', t.shifts);
+            populateSelect('location-select', t.locations);
+            populateSelect('task-select', t.tasks);
+
+            updatePreviewUI();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'tr' : 'ar';
+            updateLanguageUI();
+        }
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+        }
+
+        function handleFileSelect(event) {
+            const t = translations[currentLang];
+            const files = Array.from(event.target.files);
+            
+            for (let file of files) {
+                if (selectedFiles.length >= 10) {
+                    alert(t.msgMaxFiles);
+                    break;
+                }
+                selectedFiles.push(file);
+            }
+
+            event.target.value = "";
+            updatePreviewUI();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updatePreviewUI();
+        }
+
+        function updatePreviewUI() {
+            const t = translations[currentLang];
+            const countLabel = document.getElementById('file-count');
+            const grid = document.getElementById('preview-grid');
+            
+            countLabel.innerText = selectedFiles.length > 0 
+                ? t.fileCountText(selectedFiles.length)
+                : t.fileCountZero;
+
+            grid.innerHTML = "";
+            selectedFiles.forEach((file, index) => {
+                const itemContainer = document.createElement('div');
+                itemContainer.className = 'preview-item';
+
+                const img = document.createElement('img');
+                
+                // قراءة الصورة للمعاينة الآمنة بدون تسريب الذاكرة
+                const reader = new FileReader();
+                reader.onload = (e) => { img.src = e.target.result; };
+                reader.readAsDataURL(file);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-btn';
+                removeBtn.innerHTML = '✕';
+                removeBtn.onclick = () => removeFile(index);
+
+                itemContainer.appendChild(img);
+                itemContainer.appendChild(removeBtn);
+                grid.appendChild(itemContainer);
+            });
+        }
+
+        function resizeImage(file, maxWidth = 800, quality = 0.5) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        resolve({
+                            name: file.name,
+                            type: 'image/jpeg',
+                            data: canvas.toDataURL('image/jpeg', quality)
+                        });
+                    };
+                };
+            });
+        }
+
+        async function uploadDataToDrive() {
+            const t = translations[currentLang];
+
+            const supervisor = document.getElementById('supervisor-name').value.trim();
+            const students = document.getElementById('students-names').value.trim();
+            const shift = document.getElementById('shift-select').value;
+            const location = document.getElementById('location-select').value;
+            const task = document.getElementById('task-select').value;
+
+            if (!supervisor || !students || !shift || !location || !task) {
+                alert(t.msgFillFields);
+                return;
+            }
+
+            if (selectedFiles.length === 0) {
+                alert(t.msgNoFiles);
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = t.btnSubmitting;
+
+            try {
+                const compressedFiles = await Promise.all(
+                    selectedFiles.map(file => resizeImage(file))
+                );
+
+                const payload = {
+                    supervisor: supervisor,
+                    students: students,
+                    shift: shift,
+                    location: location,
+                    task: task,
+                    note: document.getElementById('custom-note').value,
+                    files: compressedFiles
+                };
+
+                document.getElementById('payload-input').value = JSON.stringify(payload);
+                isSubmitting = true;
+
+                document.getElementById('hidden-form').submit();
+
+            } catch (err) {
+                console.error(err);
+                alert(t.msgError);
+                submitBtn.disabled = false;
+                submitBtn.innerText = t.btnSubmit;
+                isSubmitting = false;
+            }
+        }
+
+        function onUploadComplete() {
+            const t = translations[currentLang];
+            alert(t.msgSuccess);
+            isSubmitting = false;
+            selectedFiles = [];
+            
+            // تفريغ حقول الإدخال وإعادة ضبط الخيارات
+            document.getElementById('supervisor-name').value = '';
+            document.getElementById('students-names').value = '';
+            document.getElementById('custom-note').value = '';
+            document.getElementById('shift-select').selectedIndex = 0;
+            document.getElementById('location-select').selectedIndex = 0;
+            document.getElementById('task-select').selectedIndex = 0;
+
+            updatePreviewUI();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = false;
+            submitBtn.innerText = t.btnSubmit;
+            navigateTo('home-page');
+        }
+
+        window.onload = function() {
+            updateLanguageUI();
+        };
+    </script>
 </body>
 </html>
