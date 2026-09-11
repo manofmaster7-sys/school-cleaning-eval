@@ -1,261 +1,441 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>استمارة تقييم نظافة المدرسة</title>
-  <style>
-    :root {
-      --primary-color: #2c3e50;
-      --accent-color: #27ae60;
-      --bg-color: #f8f9fa;
-      --card-bg: #ffffff;
-      --text-color: #333333;
-      --border-color: #cccccc;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقييم نظافة مدرسة المناهل الدولية</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo & Tajawal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #0b5ed7;
+            --bg-color: #f4f6f9;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+        body {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+            padding-bottom: 40px;
+        }
 
-    .container {
-      background-color: var(--card-bg);
-      width: 100%;
-      max-width: 600px;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+        .header-card {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a48a3 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--card-shadow);
+        }
 
-    h2 {
-      text-align: center;
-      color: var(--primary-color);
-      margin-bottom: 25px;
-      border-bottom: 2px solid var(--accent-color);
-      padding-bottom: 10px;
-    }
+        .lang-switch {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+        .lang-switch:hover {
+            background: white;
+            color: var(--primary-color);
+        }
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-      color: var(--primary-color);
-    }
+        .form-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border: none;
+        }
 
-    input[type="text"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #444;
+        }
 
-    input[type="text"]:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--accent-color);
-    }
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.2s;
+        }
 
-    textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
 
-    input[type="file"] {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background-color: #f1f1f1;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+        .preview-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            height: 100px;
+        }
 
-    button {
-      width: 100%;
-      padding: 14px;
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+        .preview-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    button:hover {
-      background-color: #219150;
-    }
+        .preview-card .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(220, 53, 69, 0.85);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
 
-    button:disabled {
-      background-color: #95a5a6;
-      cursor: not-allowed;
-    }
+        .btn-submit {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
 
-    .status-message {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 6px;
-      text-align: center;
-      display: none;
-      font-weight: bold;
-    }
-
-    .status-message.success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-
-    .status-message.error {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-  </style>
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <h2>استمارة تقييم نظافة المدرسة</h2>
+<div class="container mt-4" style="max-width: 720px;">
     
-    <form id="evaluationForm">
-      <div class="form-group">
-        <label for="shift">الدوام:</label>
-        <select id="shift" name="shift" required>
-          <option value="">-- اختر الدوام --</option>
-          <option value="الدوام الصباحي">الدوام الصباحي</option>
-          <option value="الدوام المسائي">الدوام المسائي</option>
-        </select>
-      </div>
+    <!-- Header Section -->
+    <div class="header-card text-center relative">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-light text-primary fs-6 px-3 py-2" id="schoolBadge">مدرسة المناهل الدولية</span>
+            <button type="button" class="lang-switch" onclick="toggleLanguage()">
+                <i class="fa-solid fa-globe me-1"></i> <span id="langBtnText">Türkçe</span>
+            </button>
+        </div>
+        <h2 class="fw-bold mb-2" id="formTitle">تقييم نظافة المناهل الدولية</h2>
+        <p class="mb-0 text-white-50 fs-6" id="formSubtitle">نظام التقييم الإداري لنظافة المرافق والممرات</p>
+    </div>
 
-      <div class="form-group">
-        <label for="location">المكان:</label>
-        <input type="text" id="location" name="location" placeholder="مثال: الطابق الثاني / الساحة الشرقية" required>
-      </div>
+    <!-- Form Section -->
+    <div class="form-card">
+        <form id="evaluationForm" action="https://script.google.com/macros/s/AKfycbz_XXXXXXXXXXXXXX/exec" method="POST" target="hidden_iframe">
+            
+            <!-- Hidden JSON Field -->
+            <input type="hidden" name="formData" id="formDataInput">
 
-      <div class="form-group">
-        <label for="task">المهمة / النطاق:</label>
-        <input type="text" id="task" name="task" placeholder="مثال: نظافة الحمامات / مسح الممرات" required>
-      </div>
+            <!-- Evaluator Name -->
+            <div class="mb-3">
+                <label class="form-label" id="lblEvaluator"><i class="fa-solid fa-user me-2 text-primary"></i>اسم المقيم</label>
+                <select class="form-select" id="evaluatorName" required>
+                    <option value="" selected disabled>اختر اسم المقيم...</option>
+                </select>
+            </div>
 
-      <div class="form-group">
-        <label for="supervisor">اسم المشرف:</label>
-        <input type="text" id="supervisor" name="supervisor" placeholder="أدخل اسم المشرف المسؤول" required>
-      </div>
+            <!-- Shift Period -->
+            <div class="mb-3">
+                <label class="form-label" id="lblPeriod"><i class="fa-solid fa-clock me-2 text-primary"></i>الفترة الزمنية</label>
+                <select class="form-select" id="shiftPeriod" required>
+                    <option value="" selected disabled>اختر الفترة...</option>
+                </select>
+            </div>
 
-      <div class="form-group">
-        <label for="students">أسماء الطلاب المشرفين / المتابعين:</label>
-        <input type="text" id="students" name="students" placeholder="أدخل أسماء الطلاب">
-      </div>
+            <!-- Location -->
+            <div class="mb-3">
+                <label class="form-label" id="lblLocation"><i class="fa-solid fa-location-dot me-2 text-primary"></i>الموقع / المكان</label>
+                <select class="form-select" id="location" required>
+                    <option value="" selected disabled>اختر المكان...</option>
+                </select>
+            </div>
 
-      <div class="form-group">
-        <label for="note">ملاحظات إضافية:</label>
-        <textarea id="note" name="note" placeholder="أي ملاحظات حول التقييم..."></textarea>
-      </div>
+            <!-- Cleaning Status -->
+            <div class="mb-3">
+                <label class="form-label" id="lblStatus"><i class="fa-solid fa-sparkles me-2 text-primary"></i>حالة النظافة</label>
+                <select class="form-select" id="cleaningStatus" required>
+                    <option value="" selected disabled>اختر حالة النظافة...</option>
+                </select>
+            </div>
 
-      <div class="form-group">
-        <label for="fileInput">إرفاق صور (يمكن اختيار أكثر من صورة):</label>
-        <input type="file" id="fileInput" accept="image/*" multiple>
-      </div>
+            <!-- Additional Notes -->
+            <div class="mb-3">
+                <label class="form-label" id="lblNotes"><i class="fa-solid fa-comment-dots me-2 text-primary"></i>ملاحظات إضافية</label>
+                <textarea class="form-control" id="additionalNotes" rows="3" placeholder="أدخل أي ملاحظات إن وجدت..."></textarea>
+            </div>
 
-      <button type="submit" id="submitBtn">إرسال التقييم</button>
-    </form>
+            <!-- Image Capture & Upload -->
+            <div class="mb-4">
+                <label class="form-label" id="lblImages"><i class="fa-solid fa-camera me-2 text-primary"></i>التقاط / رفع الصور (الحد الأقصى 10)</label>
+                <div class="d-grid gap-2 mb-3">
+                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('cameraInput').click()">
+                        <i class="fa-solid fa-camera me-2"></i><span id="btnCapture">التقاط صورة عبر الكاميرا</span>
+                    </button>
+                    <input type="file" id="cameraInput" accept="image/*" capture="environment" multiple style="display: none;" onchange="handleImageUpload(event)">
+                </div>
 
-    <div id="statusMessage" class="status-message"></div>
-  </div>
+                <!-- Images Preview Container -->
+                <div class="row g-2" id="imagesPreviewContainer"></div>
+            </div>
 
-  <script>
-    // رابط السكريبت الجديد الخاص بك
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRkXIWbHcd68OAamj1bJDmDPZmIWf7c6IYmK-FJO6W0LAyA2IhYIm3ZzNleMGh_6ym/exec";
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-submit" id="btnSubmit">
+                    <i class="fa-solid fa-paper-plane me-2"></i><span id="btnSubmitText">إرسال التقييم</span>
+                </button>
+            </div>
 
-    const form = document.getElementById("evaluationForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const statusMessage = document.getElementById("statusMessage");
+        </form>
+    </div>
+</div>
 
-    // تحويل الملفات إلى Base64
-    const convertFileToBase64 = (file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve({
-          name: file.name,
-          type: file.type,
-          data: reader.result
-        });
-        reader.onerror = (error) => reject(error);
-      });
+<!-- Hidden iFrame for Form Submission -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){onSuccessResponse();}"></iframe>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let currentLang = 'ar';
+    let submitted = false;
+    let imagesList = [];
+
+    // Translations Dictionary
+    const translations = {
+        ar: {
+            schoolBadge: "مدرسة المناهل الدولية",
+            formTitle: "تقييم نظافة المناهل الدولية",
+            formSubtitle: "نظام التقييم الإداري لنظافة المرافق والممرات",
+            lblEvaluator: "اسم المقيم",
+            lblPeriod: "الفترة الزمنية",
+            lblLocation: "الموقع / المكان",
+            lblStatus: "حالة النظافة",
+            lblNotes: "ملاحظات إضافية",
+            lblImages: "التقاط / رفع الصور (الحد الأقصى 10)",
+            btnCapture: "التقاط صورة عبر الكاميرا",
+            btnSubmitText: "إرسال التقييم",
+            langBtnText: "Türkçe",
+            phNotes: "أدخل أي ملاحظات إن وجدت...",
+            evaluators: ["زياد زمزم", "عمر أوزمان", "محمد أحمد"],
+            periods: [
+                { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي (08:00 - 15:00)" },
+                { val: "الدوام الصباحي", text: "الدوام الصباحي (08:00 - 11:30)" },
+                { val: "الدوام المسائي", text: "الدوام المسائي (11:30 - 15:00)" }
+            ],
+            locations: ["الممرات - الطابق الأول", "الممرات - الطابق الثاني", "دورات المياه - بنين", "دورات المياه - بنات", "الساحة الخارجية", "الإدارة"],
+            statuses: ["ممتاز جداً", "جيد جداً", "مقبول", "غير مقبول / يحتاج تنظيف فوراً"]
+        },
+        tr: {
+            schoolBadge: "El Menahil Uluslararası Okulu",
+            formTitle: "El Menahil Temizlik Değerlendirmesi",
+            formSubtitle: "Tesis ve Koridor Temizliği Yönetim Değerlendirme Sistemi",
+            lblEvaluator: "Değerlendiren Kişi",
+            lblPeriod: "Zaman Dilimi",
+            lblLocation: "Konum / Yer",
+            lblStatus: "Temizlik Durumu",
+            lblNotes: "Ek Notlar",
+            lblImages: "Fotoğraf Çek / Yükle (Maksimum 10)",
+            btnCapture: "Kamera ile Fotoğraf Çek",
+            btnSubmitText: "Değerlendirmeyi Gönder",
+            langBtnText: "العربية",
+            phNotes: "Varsa notlarınızı giriniz...",
+            evaluators: ["Ziad Zamzam", "Omar Ozman", "Mohamed Ahmed"],
+            periods: [
+                { val: "دوام القيد الرسمي", text: "Resmi Mesai (08:00 - 15:00)" },
+                { val: "الدوام الصباحي", text: "Sabah Vardiyası (08:00 - 11:30)" },
+                { val: "الدوام المسائي", text: "Öğle Vardiyası (11:30 - 15:00)" }
+            ],
+            locations: ["Koridorlar - 1. Kat", "Koridorlar - 2. Kat", "Tuvaletler - Erkek", "Tuvaletler - Kız", "Dış Bahçe", "Yönetيم / İdare"],
+            statuses: ["Çok İyi", "İyi", "Kabul Edilebilir", "Yetersiz / Acil Temizlik Gerekli"]
+        }
     };
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    // Populate Dropdown Options
+    function populateDropdowns() {
+        const langData = translations[currentLang];
 
-      submitBtn.disabled = true;
-      submitBtn.innerText = "جاري الإرسال...";
-      statusMessage.style.display = "none";
-
-      try {
-        const fileInput = document.getElementById("fileInput");
-        const filePromises = Array.from(fileInput.files).map(convertFileToBase64);
-        const encodedFiles = await Promise.all(filePromises);
-
-        const payload = {
-          shift: document.getElementById("shift").value,
-          location: document.getElementById("location").value,
-          task: document.getElementById("task").value,
-          supervisor: document.getElementById("supervisor").value,
-          students: document.getElementById("students").value,
-          note: document.getElementById("note").value,
-          files: encodedFiles
-        };
-
-        // الإرسال كـ Form Data لتفادي قيود CORS البرمجية مع Google Apps Script
-        const formData = new FormData();
-        formData.append("payload", JSON.stringify(payload));
-
-        await fetch(SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData
+        // Evaluators
+        const evalSelect = document.getElementById('evaluatorName');
+        evalSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر اسم المقيم...' : 'Değerlendiren seçiniz...'}</option>`;
+        langData.evaluators.forEach(name => {
+            evalSelect.innerHTML += `<option value="${name}">${name}</option>`;
         });
 
-        // إظهار رسالة النجاح وتصفير النموذج
-        statusMessage.className = "status-message success";
-        statusMessage.innerText = "تم إرسال التقييم وحفظ الصور والتقرير بنجاح!";
-        statusMessage.style.display = "block";
-        form.reset();
+        // Shift Periods
+        const periodSelect = document.getElementById('shiftPeriod');
+        periodSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر الفترة...' : 'Vardiya seçiniz...'}</option>`;
+        langData.periods.forEach(p => {
+            periodSelect.innerHTML += `<option value="${p.val}">${p.text}</option>`;
+        });
 
-      } catch (error) {
-        console.error("Error:", error);
-        statusMessage.className = "status-message error";
-        statusMessage.innerText = "حدث خطأ أثناء الإرسال. يرجى المحاولة لاحقاً.";
-        statusMessage.style.display = "block";
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "إرسال التقييم";
-      }
+        // Locations
+        const locSelect = document.getElementById('location');
+        locSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر المكان...' : 'Konum seçiniz...'}</option>`;
+        langData.locations.forEach(loc => {
+            locSelect.innerHTML += `<option value="${loc}">${loc}</option>`;
+        });
+
+        // Statuses
+        const statusSelect = document.getElementById('cleaningStatus');
+        statusSelect.innerHTML = `<option value="" selected disabled>${currentLang === 'ar' ? 'اختر حالة النظافة...' : 'Durum seçiniz...'}</option>`;
+        langData.statuses.forEach(st => {
+            statusSelect.innerHTML += `<option value="${st}">${st}</option>`;
+        });
+    }
+
+    // Toggle Language AR / TR
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'tr' : 'ar';
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+        const data = translations[currentLang];
+
+        document.getElementById('schoolBadge').innerText = data.schoolBadge;
+        document.getElementById('formTitle').innerText = data.formTitle;
+        document.getElementById('formSubtitle').innerText = data.formSubtitle;
+        document.getElementById('lblEvaluator').innerHTML = `<i class="fa-solid fa-user me-2 text-primary"></i>${data.lblEvaluator}`;
+        document.getElementById('lblPeriod').innerHTML = `<i class="fa-solid fa-clock me-2 text-primary"></i>${data.lblPeriod}`;
+        document.getElementById('lblLocation').innerHTML = `<i class="fa-solid fa-location-dot me-2 text-primary"></i>${data.lblLocation}`;
+        document.getElementById('lblStatus').innerHTML = `<i class="fa-solid fa-sparkles me-2 text-primary"></i>${data.lblStatus}`;
+        document.getElementById('lblNotes').innerHTML = `<i class="fa-solid fa-comment-dots me-2 text-primary"></i>${data.lblNotes}`;
+        document.getElementById('lblImages').innerHTML = `<i class="fa-solid fa-camera me-2 text-primary"></i>${data.lblImages}`;
+        document.getElementById('btnCapture').innerText = data.btnCapture;
+        document.getElementById('btnSubmitText').innerText = data.btnSubmitText;
+        document.getElementById('langBtnText').innerText = data.langBtnText;
+        document.getElementById('additionalNotes').placeholder = data.phNotes;
+
+        populateDropdowns();
+    }
+
+    // Image Compression and Handling
+    function handleImageUpload(event) {
+        const files = event.target.files;
+        if (!files || files.length === 0) return;
+
+        if (imagesList.length + files.length > 10) {
+            alert(currentLang === 'ar' ? 'الحد الأقصى المسموح به هو 10 صور فقط.' : 'Maksimum 10 fotoğraf yükleyebilirsiniz.');
+            return;
+        }
+
+        Array.from(files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Resize to max 800px width/height while maintaining ratio
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 800;
+
+                    if (width > height && width > maxDim) {
+                        height *= maxDim / width;
+                        width = maxDim;
+                    } else if (height > maxDim) {
+                        width *= maxDim / height;
+                        height = maxDim;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Compress to JPEG with 0.5 quality
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.5);
+                    imagesList.push(compressedBase64);
+                    renderPreviews();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Render Preview Thumbnails
+    function renderPreviews() {
+        const container = document.getElementById('imagesPreviewContainer');
+        container.innerHTML = '';
+
+        imagesList.forEach((src, index) => {
+            const col = document.createElement('div');
+            col.className = 'col-3 col-md-2';
+            col.innerHTML = `
+                <div class="preview-card">
+                    <img src="${src}" alt="Captured Image">
+                    <button type="button" class="remove-btn" onclick="removeImage(${index})">&times;</button>
+                </div>
+            `;
+            container.appendChild(col);
+        });
+    }
+
+    // Remove Image from Array
+    function removeImage(index) {
+        imagesList.splice(index, 1);
+        renderPreviews();
+    }
+
+    // Prepare JSON & Submit Form
+    document.getElementById('evaluationForm').addEventListener('submit', function (e) {
+        submitted = true;
+
+        const payload = {
+            evaluator: document.getElementById('evaluatorName').value,
+            period: document.getElementById('shiftPeriod').value,
+            location: document.getElementById('location').value,
+            status: document.getElementById('cleaningStatus').value,
+            notes: document.getElementById('additionalNotes').value,
+            images: imagesList,
+            timestamp: new Date().toISOString()
+        };
+
+        document.getElementById('formDataInput').value = JSON.stringify(payload);
+        
+        // Show Loading State
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status"></span>${currentLang === 'ar' ? 'جاري الإرسال...' : 'Gönderiliyor...'}`;
     });
-  </script>
+
+    // Callback on iFrame Loaded (Success)
+    function onSuccessResponse() {
+        alert(currentLang === 'ar' ? 'تم إرسال التقييم بنجاح! شكراً لجهودكم.' : 'Değerlendirme başarıyla gönderildi! Teşekkür ederiz.');
+        document.getElementById('evaluationForm').reset();
+        imagesList = [];
+        renderPreviews();
+
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane me-2"></i><span id="btnSubmitText">${translations[currentLang].btnSubmitText}</span>`;
+        submitted = false;
+    }
+
+    // Initialize Page
+    populateDropdowns();
+</script>
+
 </body>
 </html>
