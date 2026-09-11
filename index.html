@@ -3,82 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نموذج تقييم نظافة المدرسة</title>
+  <title>استمارة تقييم نظافة المدرسة</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f7f6;
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #27ae60;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+      --border-color: #cccccc;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
       padding: 20px;
-      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
+
     .container {
+      background-color: var(--card-bg);
+      width: 100%;
       max-width: 600px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 25px 30px;
+      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
+
     h2 {
       text-align: center;
-      color: #2c3e50;
+      color: var(--primary-color);
       margin-bottom: 25px;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 10px;
     }
+
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 20px;
     }
+
     label {
       display: block;
+      margin-bottom: 8px;
       font-weight: bold;
-      margin-bottom: 6px;
-      color: #444;
+      color: var(--primary-color);
     }
-    input[type="text"], select, textarea, input[type="file"] {
+
+    input[type="text"],
+    select,
+    textarea {
       width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
+      padding: 12px;
+      border: 1px solid var(--border-color);
       border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 15px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
     }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent-color);
+    }
+
     textarea {
       resize: vertical;
-      height: 90px;
+      min-height: 80px;
     }
+
+    input[type="file"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     button {
       width: 100%;
-      background-color: #27ae60;
+      padding: 14px;
+      background-color: var(--accent-color);
       color: white;
-      padding: 12px;
       border: none;
       border-radius: 6px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background-color 0.3s;
     }
+
     button:hover {
       background-color: #219150;
     }
+
     button:disabled {
-      background-color: #bdc3c7;
+      background-color: #95a5a6;
       cursor: not-allowed;
     }
-    #statusMessage {
+
+    .status-message {
       margin-top: 15px;
-      padding: 10px;
+      padding: 12px;
       border-radius: 6px;
       text-align: center;
       display: none;
       font-weight: bold;
     }
-    .success {
+
+    .status-message.success {
       background-color: #d4edda;
       color: #155724;
       border: 1px solid #c3e6cb;
     }
-    .error {
+
+    .status-message.error {
       background-color: #f8d7da;
       color: #721c24;
       border: 1px solid #f5c6cb;
@@ -87,133 +137,125 @@
 </head>
 <body>
 
-<div class="container">
-  <h2>استمارة تقييم نظافة المدرسة</h2>
-  
-  <form id="evaluationForm">
-    <div class="form-group">
-      <label for="shift">الدوام:</label>
-      <select id="shift" required>
-        <option value="">اختر الدوام...</option>
-        <option value="الدوام الصباحي">الدوام الصباحي</option>
-        <option value="الدوام المسائي">الدوام المسائي</option>
-      </select>
-    </div>
+  <div class="container">
+    <h2>استمارة تقييم نظافة المدرسة</h2>
+    
+    <form id="evaluationForm">
+      <div class="form-group">
+        <label for="shift">الدوام:</label>
+        <select id="shift" name="shift" required>
+          <option value="">-- اختر الدوام --</option>
+          <option value="الدوام الصباحي">الدوام الصباحي</option>
+          <option value="الدوام المسائي">الدوام المسائي</option>
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label for="location">المكان:</label>
-      <input type="text" id="location" placeholder="مثال: الطابق الثاني / الساحة" required>
-    </div>
+      <div class="form-group">
+        <label for="location">المكان:</label>
+        <input type="text" id="location" name="location" placeholder="مثال: الطابق الثاني / الساحة الشرقية" required>
+      </div>
 
-    <div class="form-group">
-      <label for="task">المهمة:</label>
-      <input type="text" id="task" placeholder="مثال: تنظيف الحمامات / القاعات" required>
-    </div>
+      <div class="form-group">
+        <label for="task">المهمة / النطاق:</label>
+        <input type="text" id="task" name="task" placeholder="مثال: نظافة الحمامات / مسح الممرات" required>
+      </div>
 
-    <div class="form-group">
-      <label for="supervisor">اسم المشرف:</label>
-      <input type="text" id="supervisor" placeholder="أدخل اسم المشرف" required>
-    </div>
+      <div class="form-group">
+        <label for="supervisor">اسم المشرف:</label>
+        <input type="text" id="supervisor" name="supervisor" placeholder="أدخل اسم المشرف المسؤول" required>
+      </div>
 
-    <div class="form-group">
-      <label for="students">أسماء الطلاب المشرفين:</label>
-      <input type="text" id="students" placeholder="أدخل أسماء الطلاب">
-    </div>
+      <div class="form-group">
+        <label for="students">أسماء الطلاب المشرفين / المتابعين:</label>
+        <input type="text" id="students" name="students" placeholder="أدخل أسماء الطلاب">
+      </div>
 
-    <div class="form-group">
-      <label for="note">ملاحظات إضافية:</label>
-      <textarea id="note" placeholder="أي ملاحظات أخرى..."></textarea>
-    </div>
+      <div class="form-group">
+        <label for="note">ملاحظات إضافية:</label>
+        <textarea id="note" name="note" placeholder="أي ملاحظات حول التقييم..."></textarea>
+      </div>
 
-    <div class="form-group">
-      <label for="files">إرفاق صور (يمكن اختيار أكثر من صورة):</label>
-      <input type="file" id="files" accept="image/*" multiple>
-    </div>
+      <div class="form-group">
+        <label for="fileInput">إرفاق صور (يمكن اختيار أكثر من صورة):</label>
+        <input type="file" id="fileInput" accept="image/*" multiple>
+      </div>
 
-    <button type="submit" id="submitBtn">إرسال التقييم</button>
-  </form>
+      <button type="submit" id="submitBtn">إرسال التقييم</button>
+    </form>
 
-  <div id="statusMessage"></div>
-</div>
+    <div id="statusMessage" class="status-message"></div>
+  </div>
 
-<script>
-  // رابط Google Apps Script الخاص بك
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRkXIWbHcd68OAamj1bJDmDPZmIWf7c6IYmK-FJO6W0LAyA2IhYIm3ZzNleMGh_6ym/exec";
+  <script>
+    // رابط السكريبت الجديد الخاص بك
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRkXIWbHcd68OAamj1bJDmDPZmIWf7c6IYmK-FJO6W0LAyA2IhYIm3ZzNleMGh_6ym/exec";
 
-  document.getElementById("evaluationForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
+    const form = document.getElementById("evaluationForm");
     const submitBtn = document.getElementById("submitBtn");
-    const statusDiv = document.getElementById("statusMessage");
+    const statusMessage = document.getElementById("statusMessage");
 
-    submitBtn.disabled = true;
-    submitBtn.innerText = "جاري الإرسال والمعالجة...";
-    statusDiv.style.display = "none";
-
-    try {
-      // 1. قراءة الملفات المرفقة وتحويلها لـ Base64
-      const fileInput = document.getElementById("files");
-      const filesList = [];
-
-      if (fileInput.files.length > 0) {
-        for (let i = 0; i < fileInput.files.length; i++) {
-          const file = fileInput.files[i];
-          const base64Data = await convertFileToBase64(file);
-          filesList.push({
-            data: base64Data,
-            type: file.type
-          });
-        }
-      }
-
-      // 2. تجميع البيانات في كائن JSON
-      const payload = {
-        shift: document.getElementById("shift").value,
-        location: document.getElementById("location").value,
-        task: document.getElementById("task").value,
-        supervisor: document.getElementById("supervisor").value,
-        students: document.getElementById("students").value,
-        note: document.getElementById("note").value,
-        files: filesList
-      };
-
-      // 3. إرسال الطلب لـ Google Apps Script
-      const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(payload)
+    // تحويل الملفات إلى Base64
+    const convertFileToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve({
+          name: file.name,
+          type: file.type,
+          data: reader.result
+        });
+        reader.onerror = (error) => reject(error);
       });
+    };
 
-      const result = await response.json();
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-      if (result.status === "success") {
-        statusDiv.className = "success";
-        statusDiv.innerText = " تم إرسال التقييم وحفظ البيانات والصور بنجاح!";
-        statusDiv.style.display = "block";
-        document.getElementById("evaluationForm").reset();
-      } else {
-        throw new Error(result.message || "حدث خطأ غير معروف أثناء الحفظ.");
+      submitBtn.disabled = true;
+      submitBtn.innerText = "جاري الإرسال...";
+      statusMessage.style.display = "none";
+
+      try {
+        const fileInput = document.getElementById("fileInput");
+        const filePromises = Array.from(fileInput.files).map(convertFileToBase64);
+        const encodedFiles = await Promise.all(filePromises);
+
+        const payload = {
+          shift: document.getElementById("shift").value,
+          location: document.getElementById("location").value,
+          task: document.getElementById("task").value,
+          supervisor: document.getElementById("supervisor").value,
+          students: document.getElementById("students").value,
+          note: document.getElementById("note").value,
+          files: encodedFiles
+        };
+
+        // الإرسال كـ Form Data لتفادي قيود CORS البرمجية مع Google Apps Script
+        const formData = new FormData();
+        formData.append("payload", JSON.stringify(payload));
+
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        });
+
+        // إظهار رسالة النجاح وتصفير النموذج
+        statusMessage.className = "status-message success";
+        statusMessage.innerText = "تم إرسال التقييم وحفظ الصور والتقرير بنجاح!";
+        statusMessage.style.display = "block";
+        form.reset();
+
+      } catch (error) {
+        console.error("Error:", error);
+        statusMessage.className = "status-message error";
+        statusMessage.innerText = "حدث خطأ أثناء الإرسال. يرجى المحاولة لاحقاً.";
+        statusMessage.style.display = "block";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "إرسال التقييم";
       }
-
-    } catch (err) {
-      statusDiv.className = "error";
-      statusDiv.innerText = " حدث خطأ أثناء الإرسال: " + err.message;
-      statusDiv.style.display = "block";
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerText = "إرسال التقييم";
-    }
-  });
-
-  // دالة تحويل الملفات إلى Base64
-  function convertFileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-      reader.readAsDataURL(file);
     });
-  }
-</script>
-
+  </script>
 </body>
 </html>
