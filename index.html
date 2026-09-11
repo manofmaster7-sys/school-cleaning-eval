@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقييم نظافة مدرسة المناهل الدولية</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        تقييم نظافة مدرسة المناهل الدولية
+    </title>
+
+
     <style>
+
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
         }
+
+
         body {
             background-color: #f4f7f6;
             color: #333;
@@ -18,6 +30,8 @@
             display: flex;
             flex-direction: column;
         }
+
+
         header {
             display: flex;
             justify-content: space-between;
@@ -28,34 +42,54 @@
             width: 100%;
             position: relative;
         }
+
+
         .logo-box {
             width: 120px;
             display: flex;
             align-items: center;
         }
-        .logo-box.right { justify-content: flex-start; }
-        .logo-box.left { justify-content: flex-end; }
+
+
+        .logo-box.right {
+            justify-content: flex-start;
+        }
+
+
+        .logo-box.left {
+            justify-content: flex-end;
+        }
+
+
         .logo {
             max-height: 75px;
             max-width: 100%;
             object-fit: contain;
         }
+
+
         .header-title-container {
             text-align: center;
             flex: 1;
         }
+
+
         .header-title {
             font-size: 24px;
             font-weight: bold;
             color: #1a5b8c;
             line-height: 1.2;
         }
+
+
         .header-subtitle {
             font-size: 15px;
             color: #555;
             font-weight: 600;
             margin-top: 5px;
         }
+
+
         .lang-btn {
             background-color: #1a5b8c;
             color: white;
@@ -68,9 +102,13 @@
             transition: background 0.2s ease;
             margin-left: 10px;
         }
+
+
         .lang-btn:hover {
             background-color: #14446a;
         }
+
+
         .page {
             display: none;
             padding: 20px;
@@ -79,17 +117,27 @@
             width: 100%;
             flex: 1;
         }
-        .active-page { display: block; }
+
+
+        .active-page {
+            display: block;
+        }
+
 
         #home-page {
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-top: 180px; 
+            padding-top: 180px;
         }
-        #home-page.active-page { display: flex; }
-        
+
+
+        #home-page.active-page {
+            display: flex;
+        }
+
+
         .btn-main {
             background-color: #28a745;
             color: white;
@@ -102,10 +150,14 @@
             transition: all 0.3s ease;
             box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
         }
+
+
         .btn-main:hover {
             background-color: #218838;
             transform: translateY(-2px);
         }
+
+
         .form-container {
             background: white;
             padding: 30px;
@@ -113,6 +165,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             margin-top: 20px;
         }
+
+
         .controls-wrapper {
             display: flex;
             flex-wrap: wrap;
@@ -121,7 +175,10 @@
             align-items: center;
             margin-bottom: 30px;
         }
-        select, input[type="text"] {
+
+
+        select,
+        input[type="text"] {
             padding: 12px;
             font-size: 16px;
             border: 1px solid #ccc;
@@ -130,15 +187,22 @@
             min-width: 200px;
             outline: none;
         }
-        select:focus, input[type="text"]:focus {
+
+
+        select:focus,
+        input[type="text"]:focus {
             border-color: #1a5b8c;
         }
+
+
         .upload-section {
             text-align: center;
             margin-top: 20px;
             border-top: 1px solid #eee;
             padding-top: 25px;
         }
+
+
         .btn-upload {
             background-color: #17a2b8;
             color: white;
@@ -150,14 +214,20 @@
             display: inline-block;
             font-weight: bold;
         }
-        #file-input-camera { display: none; }
-        
+
+
+        #file-input-camera {
+            display: none;
+        }
+
+
         .file-info {
             margin-top: 12px;
             font-size: 15px;
             color: #666;
             font-weight: 500;
         }
+
 
         .preview-grid {
             display: flex;
@@ -166,6 +236,8 @@
             justify-content: center;
             margin-top: 15px;
         }
+
+
         .preview-item {
             position: relative;
             width: 85px;
@@ -174,11 +246,15 @@
             overflow: hidden;
             border: 2px solid #ddd;
         }
+
+
         .preview-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
+
         .preview-item .remove-btn {
             position: absolute;
             top: 2px;
@@ -197,10 +273,13 @@
             font-weight: bold;
         }
 
+
         .submit-btn-wrapper {
             margin-top: 25px;
             text-align: center;
         }
+
+
         .btn-submit {
             background-color: #1a5b8c;
             color: white;
@@ -211,413 +290,1631 @@
             cursor: pointer;
             font-weight: bold;
         }
+
+
         .btn-submit:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
 
+
         @media (max-width: 768px) {
-            header { padding: 10px; }
-            .logo-box { width: 60px; }
-            .logo { max-height: 45px; }
-            .header-title { font-size: 14px; }
-            .header-subtitle { font-size: 10px; }
-            .lang-btn { padding: 5px 10px; font-size: 13px; margin-left: 5px; }
-            #home-page { padding-top: 120px; }
-            .btn-main { font-size: 20px; padding: 16px 35px; }
-            .controls-wrapper { flex-direction: column; }
-            select, input[type="text"] { width: 100%; }
+
+            header {
+                padding: 10px;
+            }
+
+            .logo-box {
+                width: 60px;
+            }
+
+            .logo {
+                max-height: 45px;
+            }
+
+            .header-title {
+                font-size: 14px;
+            }
+
+            .header-subtitle {
+                font-size: 10px;
+            }
+
+            .lang-btn {
+                padding: 5px 10px;
+                font-size: 13px;
+                margin-left: 5px;
+            }
+
+            #home-page {
+                padding-top: 120px;
+            }
+
+            .btn-main {
+                font-size: 20px;
+                padding: 16px 35px;
+            }
+
+            .controls-wrapper {
+                flex-direction: column;
+            }
+
+            select,
+            input[type="text"] {
+                width: 100%;
+            }
+
         }
+
     </style>
+
 </head>
+
+
 <body>
 
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
     <header>
+
         <div class="logo-box right">
-            <img src="school-logo.png" alt="شعار المدرسة" class="logo" onerror="this.src='https://via.placeholder.com/100x70?text=شعار+المدرسة'">
+
+            <img
+                src="school-logo.png"
+                alt="شعار المدرسة"
+                class="logo"
+                onerror="this.src='https://via.placeholder.com/100x70?text=شعار+المدرسة'"
+            >
+
         </div>
+
+
         <div class="header-title-container">
-            <div class="header-title" id="txt-header-title">تقييم نظافة المدرسة</div>
-            <div class="header-subtitle" id="txt-header-subtitle">للعام الدراسي 2026 - 2027</div>
+
+            <div
+                class="header-title"
+                id="txt-header-title"
+            >
+                تقييم نظافة المدرسة
+            </div>
+
+
+            <div
+                class="header-subtitle"
+                id="txt-header-subtitle"
+            >
+                للعام الدراسي 2026 - 2027
+            </div>
+
         </div>
-        <button class="lang-btn" id="lang-btn" onclick="toggleLanguage()">TR</button>
+
+
+        <button
+            class="lang-btn"
+            id="lang-btn"
+            onclick="toggleLanguage()"
+        >
+            TR
+        </button>
+
+
         <div class="logo-box left">
-            <img src="assoc-logo.png" alt="شعار الجمعية" class="logo" onerror="this.src='https://via.placeholder.com/100x70?text=شعار+الجمعية'">
+
+            <img
+                src="assoc-logo.png"
+                alt="شعار الجمعية"
+                class="logo"
+                onerror="this.src='https://via.placeholder.com/100x70?text=شعار+الجمعية'"
+            >
+
         </div>
+
     </header>
 
-    <div id="home-page" class="page active-page">
-        <button class="btn-main" id="txt-btn-main" onclick="navigateTo('task-page')">مهمة جديدة</button>
+
+    <!-- =========================
+         HOME PAGE
+    ========================== -->
+
+    <div
+        id="home-page"
+        class="page active-page"
+    >
+
+        <button
+            class="btn-main"
+            id="txt-btn-main"
+            onclick="navigateTo('task-page')"
+        >
+            مهمة جديدة
+        </button>
+
     </div>
 
-    <div id="task-page" class="page">
+
+    <!-- =========================
+         TASK PAGE
+    ========================== -->
+
+    <div
+        id="task-page"
+        class="page"
+    >
+
         <div class="form-container">
+
+
             <div class="controls-wrapper">
-                <select id="shift-select"></select>
-                <select id="location-select"></select>
-                <select id="task-select"></select>
-                <input type="text" id="custom-note">
-                <input type="text" id="supervisor-name" required>
-                <input type="text" id="students-names" required>
+
+
+                <select
+                    id="shift-select"
+                ></select>
+
+
+                <select
+                    id="location-select"
+                ></select>
+
+
+                <select
+                    id="task-select"
+                ></select>
+
+
+                <input
+                    type="text"
+                    id="custom-note"
+                >
+
+
+                <input
+                    type="text"
+                    id="supervisor-name"
+                    required
+                >
+
+
+                <input
+                    type="text"
+                    id="students-names"
+                    required
+                >
+
+
             </div>
+
+
+            <!-- =========================
+                 PHOTO UPLOAD
+            ========================== -->
 
             <div class="upload-section">
-                <input type="file" id="file-input-camera" accept="image/*" capture="environment" onchange="handleFileSelect(event)">
-                <label for="file-input-camera" class="btn-upload" id="txt-btn-upload">📸 التقاط صورة بالكاميرا</label>
 
-                <div class="file-info" id="file-count">لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)</div>
-                <div class="preview-grid" id="preview-grid"></div>
+
+                <input
+                    type="file"
+                    id="file-input-camera"
+                    accept="image/*"
+                    capture="environment"
+                    onchange="handleFileSelect(event)"
+                >
+
+
+                <label
+                    for="file-input-camera"
+                    class="btn-upload"
+                    id="txt-btn-upload"
+                >
+                    📸 التقاط صورة بالكاميرا
+                </label>
+
+
+                <div
+                    class="file-info"
+                    id="file-count"
+                >
+                    لم يتم التقاط أي صور بعد
+                    (الحد الأقصى 10 صور)
+                </div>
+
+
+                <div
+                    class="preview-grid"
+                    id="preview-grid"
+                ></div>
+
+
             </div>
+
+
+            <!-- =========================
+                 SUBMIT
+            ========================== -->
 
             <div class="submit-btn-wrapper">
-                <button class="btn-submit" id="submit-btn" onclick="uploadDataToDrive()">إرسال التقييم إلى Drive</button>
+
+                <button
+                    class="btn-submit"
+                    id="submit-btn"
+                    onclick="uploadDataToDrive()"
+                >
+                    إرسال التقييم إلى Drive
+                </button>
+
             </div>
+
+
         </div>
+
     </div>
 
-    <!-- نموذج وiframe مخفيان لضمان الرفع دون حظر المتصفح -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(isSubmitting){onUploadComplete();}"></iframe>
-    <form id="hidden-form" action="https://script.google.com/macros/s/AKfycbwwpnwve5SsEGvMlTslXLacNPyoXLtwEvshXsi5zJk1yTNpV83c22FK-Y_OIn11VIw4Mg/exec" method="POST" target="hidden_iframe" style="display:none;">
-        <input type="hidden" name="payload" id="payload-input">
+
+    <!-- =========================
+         HIDDEN IFRAME
+    ========================== -->
+
+    <iframe
+        name="hidden_iframe"
+        id="hidden_iframe"
+        style="display:none;"
+        onload="if(isSubmitting){onUploadComplete();}"
+    ></iframe>
+
+
+    <!-- =========================
+         HIDDEN FORM
+    ========================== -->
+
+    <form
+        id="hidden-form"
+        action="https://script.google.com/macros/s/AKfycbwwpnwve5SsEGvMlTslXLacNPyoXLtwEvshxSi5zJk1yTNpV83c22FK-Y_OIn11VIw4Mg/exec"
+        method="POST"
+        target="hidden_iframe"
+        style="display:none;"
+    >
+
+        <input
+            type="hidden"
+            name="payload"
+            id="payload-input"
+        >
+
     </form>
 
+
+
     <script>
+
+
+        /*************************************************
+         * المتغيرات الأساسية
+         *************************************************/
+
         let selectedFiles = [];
+
         let isSubmitting = false;
+
         let currentLang = 'ar';
 
+
+
+        /*************************************************
+         * الترجمات
+         *************************************************/
+
         const translations = {
+
             ar: {
-                headerTitle: "تقييم نظافة المدرسة",
-                headerSubtitle: "للعام الدراسي 2026 - 2027",
-                btnMain: "مهمة جديدة",
-                btnUpload: "📸 التقاط صورة بالكاميرا",
-                btnSubmit: "إرسال التقييم إلى Drive",
-                btnSubmitting: "جاري الإرسال...",
-                supervisorPlaceholder: "اسم المشرف (مطلوب) *",
-                studentsPlaceholder: "أسماء الطلاب المشرفين (مطلوب) *",
-                customNotePlaceholder: "ملاحظات إضافية (اختياري)...",
-                fileCountZero: "لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)",
-                fileCountText: (count) => `تم التقاط ${count} صورة من أصل 10`,
-                msgMaxFiles: "وصلت للحد الأقصى المسموح به (10 صور).",
-                msgNoFiles: "يرجى التقاط صورة واحدة على الأقل أولاً.",
-                msgFillFields: "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
-                msgError: "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
-                msgSuccess: "تم الإرسال وحفظ المستند النصي والصور بنجاح في Google Drive!",
+
+                headerTitle:
+                    "تقييم نظافة المدرسة",
+
+                headerSubtitle:
+                    "للعام الدراسي 2026 - 2027",
+
+                btnMain:
+                    "مهمة جديدة",
+
+                btnUpload:
+                    "📸 التقاط صورة بالكاميرا",
+
+                btnSubmit:
+                    "إرسال التقييم إلى Drive",
+
+                btnSubmitting:
+                    "جاري الإرسال...",
+
+                supervisorPlaceholder:
+                    "اسم المشرف (مطلوب) *",
+
+                studentsPlaceholder:
+                    "أسماء الطلاب المشرفين (مطلوب) *",
+
+                customNotePlaceholder:
+                    "ملاحظات إضافية (اختياري)...",
+
+                fileCountZero:
+                    "لم يتم التقاط أي صور بعد (الحد الأقصى 10 صور)",
+
+                fileCountText:
+                    (count) =>
+                        `تم التقاط ${count} صورة من أصل 10`,
+
+                msgMaxFiles:
+                    "وصلت للحد الأقصى المسموح به (10 صور).",
+
+                msgNoFiles:
+                    "يرجى التقاط صورة واحدة على الأقل أولاً.",
+
+                msgFillFields:
+                    "يرجى تعبئة كافة الحقول المطلوبة بما في ذلك اسم المشرف، أسماء الطلاب، والخيارات المنسدلة.",
+
+                msgError:
+                    "حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.",
+
+                msgSuccess:
+                    "تم الإرسال وحفظ ملف التقرير النصي والصور بنجاح في Google Drive!",
+
                 shifts: [
-                    { val: "", text: "اختر الدوام", disabled: true },
-                    { val: "دوام القيد الرسمي", text: "دوام القيد الرسمي" },
-                    { val: "الدوام المسائي", text: "الدوام المسائي" },
-                    { val: "دوام سبت وأحد", text: "دوام سبت وأحد" }
+
+                    {
+                        val: "",
+                        text: "اختر الدوام",
+                        disabled: true
+                    },
+
+                    {
+                        val: "دوام القيد الرسمي",
+                        text: "دوام القيد الرسمي"
+                    },
+
+                    {
+                        val: "الدوام المسائي",
+                        text: "الدوام المسائي"
+                    },
+
+                    {
+                        val: "دوام سبت وأحد",
+                        text: "دوام سبت وأحد"
+                    }
+
                 ],
+
                 locations: [
-                    { val: "", text: "اختر المكان", disabled: true },
-                    { val: "الساحات الرئيسية", text: "الساحات الرئيسية" },
-                    { val: "الطابق الأول", text: "الطابق الأول" },
-                    { val: "الطابق الثاني", text: "الطابق الثاني" },
-                    { val: "الطابق الثالث", text: "الطابق الثالث" },
-                    { val: "الطابق الرابع", text: "الطابق الرابع" },
-                    { val: "الطابق الخامس", text: "الطابق الخامس" },
-                    { val: "الطابق السادس", text: "الطابق السادس" },
-                    { val: "الدرج المفرد", text: "الدرج المفرد" },
-                    { val: "الدرج المزدوج", text: "الدرج المزدوج" }
+
+                    {
+                        val: "",
+                        text: "اختر المكان",
+                        disabled: true
+                    },
+
+                    {
+                        val: "الساحات الرئيسية",
+                        text: "الساحات الرئيسية"
+                    },
+
+                    {
+                        val: "الطابق الأول",
+                        text: "الطابق الأول"
+                    },
+
+                    {
+                        val: "الطابق الثاني",
+                        text: "الطابق الثاني"
+                    },
+
+                    {
+                        val: "الطابق الثالث",
+                        text: "الطابق الثالث"
+                    },
+
+                    {
+                        val: "الطابق الرابع",
+                        text: "الطابق الرابع"
+                    },
+
+                    {
+                        val: "الطابق الخامس",
+                        text: "الطابق الخامس"
+                    },
+
+                    {
+                        val: "الطابق السادس",
+                        text: "الطابق السادس"
+                    },
+
+                    {
+                        val: "الدرج المفرد",
+                        text: "الدرج المفرد"
+                    },
+
+                    {
+                        val: "الدرج المزدوج",
+                        text: "الدرج المزدوج"
+                    }
+
                 ],
+
                 tasks: [
-                    { val: "", text: "اختر المهمة", disabled: true },
-                    { val: "الصف", text: "الصف" },
-                    { val: "ساحة الطابق", text: "ساحة الطابق" },
-                    { val: "حمامات الطابق", text: "حمامات الطابق" },
-                    { val: "غرفة المعلمين", text: "غرفة المعلمين" },
-                    { val: "بلكون", text: "بلكون" },
-                    { val: "غرفة التوجيه", text: "غرفة التوجيه" },
-                    { val: "المرسم", text: "المرسم" },
-                    { val: "مختبر الحاسوب", text: "مختبر الحاسوب" },
-                    { val: "المكتبة", text: "المكتبة" },
-                    { val: "غرفة الألعاب", text: "غرفة الألعاب" },
-                    { val: "مختبر اللغة التركية", text: "مختبر اللغة التركية" },
-                    { val: "المعرض", text: "المعرض" },
-                    { val: "غرفة الطباعة", text: "غرفة الطباعة" },
-                    { val: "الدرج المفرد", text: "الدرج المفرد" },
-                    { val: "الدرج المزدوج", text: "الدرج المزدوج" }
+
+                    {
+                        val: "",
+                        text: "اختر المهمة",
+                        disabled: true
+                    },
+
+                    {
+                        val: "الصف",
+                        text: "الصف"
+                    },
+
+                    {
+                        val: "ساحة الطابق",
+                        text: "ساحة الطابق"
+                    },
+
+                    {
+                        val: "حمامات الطابق",
+                        text: "حمامات الطابق"
+                    },
+
+                    {
+                        val: "غرفة المعلمين",
+                        text: "غرفة المعلمين"
+                    },
+
+                    {
+                        val: "بلكون",
+                        text: "بلكون"
+                    },
+
+                    {
+                        val: "غرفة التوجيه",
+                        text: "غرفة التوجيه"
+                    },
+
+                    {
+                        val: "المرسم",
+                        text: "المرسم"
+                    },
+
+                    {
+                        val: "مختبر الحاسوب",
+                        text: "مختبر الحاسوب"
+                    },
+
+                    {
+                        val: "المكتبة",
+                        text: "المكتبة"
+                    },
+
+                    {
+                        val: "غرفة الألعاب",
+                        text: "غرفة الألعاب"
+                    },
+
+                    {
+                        val: "مختبر اللغة التركية",
+                        text: "مختبر اللغة التركية"
+                    },
+
+                    {
+                        val: "المعرض",
+                        text: "المعرض"
+                    },
+
+                    {
+                        val: "غرفة الطباعة",
+                        text: "غرفة الطباعة"
+                    },
+
+                    {
+                        val: "الدرج المفرد",
+                        text: "الدرج المفرد"
+                    },
+
+                    {
+                        val: "الدرج المزدوج",
+                        text: "الدرج المزدوج"
+                    }
+
                 ]
+
             },
+
+
             tr: {
-                headerTitle: "Okul Temizlik Değerlendirmesi",
-                headerSubtitle: "2026 - 2027 Eğitim Öğretim Yılı",
-                btnMain: "Yeni Görev",
-                btnUpload: "📸 Kamera ile Fotoğraf Çek",
-                btnSubmit: "Değerlendirmeyi Drive'a Gönder",
-                btnSubmitting: "Gönderiliyor...",
-                supervisorPlaceholder: "Gözetmen Adı (Zorunlu) *",
-                studentsPlaceholder: "Gözetmen Öğrencilerin Adları (Zorunlu) *",
-                customNotePlaceholder: "Ek Notlar (İsteğe bağlı)...",
-                fileCountZero: "Henüz fotoğraf çekilmedi (Maksimum 10 fotoğraf)",
-                fileCountText: (count) => `10 fotoğraftan ${count} tanesi çekildi`,
-                msgMaxFiles: "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
-                msgNoFiles: "Lütfen önce en az bir fotoğraf çekin.",
-                msgFillFields: "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
-                msgError: "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
-                msgSuccess: "Gönderildi ve metin belgesi ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
+
+                headerTitle:
+                    "Okul Temizlik Değerlendirmesi",
+
+                headerSubtitle:
+                    "2026 - 2027 Eğitim Öğretim Yılı",
+
+                btnMain:
+                    "Yeni Görev",
+
+                btnUpload:
+                    "📸 Kamera ile Fotoğraf Çek",
+
+                btnSubmit:
+                    "Değerlendirmeyi Drive'a Gönder",
+
+                btnSubmitting:
+                    "Gönderiliyor...",
+
+                supervisorPlaceholder:
+                    "Gözetmen Adı (Zorunlu) *",
+
+                studentsPlaceholder:
+                    "Gözetmen Öğrencilerin Adları (Zorunlu) *",
+
+                customNotePlaceholder:
+                    "Ek Notlar (İsteğe bağlı)...",
+
+                fileCountZero:
+                    "Henüz fotoğraf çekilmedi (Maksimum 10 fotoğraf)",
+
+                fileCountText:
+                    (count) =>
+                        `10 fotoğraftan ${count} tanesi çekildi`,
+
+                msgMaxFiles:
+                    "İzin verilen maksimum sınıra ulaştınız (10 fotoğraf).",
+
+                msgNoFiles:
+                    "Lütfen önce en az bir fotoğraf çekin.",
+
+                msgFillFields:
+                    "Lütfen gözetmen adı, öğrenci adları ve açılır menüler dahil tüm zorunlu alanları doldurun.",
+
+                msgError:
+                    "Fotoğraflar işlenirken bir hata oluştu, lütfen tekrar deneyin.",
+
+                msgSuccess:
+                    "Gönderildi ve rapor metin dosyası ile fotoğraflar Google Drive'a başarıyla kaydedildi!",
+
                 shifts: [
-                    { val: "", text: "Vardiya Seçin", disabled: true },
-                    { val: "دوام القيد الرسمي", text: "Resmi Kayıt Vardiyası" },
-                    { val: "الدوام المسائي", text: "Akşam Vardiyası" },
-                    { val: "دوام سبت وأحد", text: "Hafta Sonu Vardiyası (Cts-Paz)" }
+
+                    {
+                        val: "",
+                        text: "Vardiya Seçin",
+                        disabled: true
+                    },
+
+                    {
+                        val: "دوام القيد الرسمي",
+                        text: "Resmi Kayıt Vardiyası"
+                    },
+
+                    {
+                        val: "الدوام المسائي",
+                        text: "Akşam Vardiyası"
+                    },
+
+                    {
+                        val: "دوام سبت وأحد",
+                        text: "Hafta Sonu Vardiyası (Cts-Paz)"
+                    }
+
                 ],
+
                 locations: [
-                    { val: "", text: "Konum Seçin", disabled: true },
-                    { val: "الساحات الرئيسية", text: "Ana Meydanlar / Bahçeler" },
-                    { val: "الطابق الأول", text: "1. Kat" },
-                    { val: "الطابق الثاني", text: "2. Kat" },
-                    { val: "الطابق الثالث", text: "3. Kat" },
-                    { val: "الطابق الرابع", text: "4. Kat" },
-                    { val: "الطابق الخامس", text: "5. Kat" },
-                    { val: "الطابق السادس", text: "6. Kat" },
-                    { val: "الدرج المفرد", text: "Tekli Merdiven" },
-                    { val: "الدرج المزدوج", text: "Çiftli Merdiven" }
+
+                    {
+                        val: "",
+                        text: "Konum Seçin",
+                        disabled: true
+                    },
+
+                    {
+                        val: "الساحات الرئيسية",
+                        text: "Ana Meydanlar / Bahçeler"
+                    },
+
+                    {
+                        val: "الطابق الأول",
+                        text: "1. Kat"
+                    },
+
+                    {
+                        val: "الطابق الثاني",
+                        text: "2. Kat"
+                    },
+
+                    {
+                        val: "الطابق الثالث",
+                        text: "3. Kat"
+                    },
+
+                    {
+                        val: "الطابق الرابع",
+                        text: "4. Kat"
+                    },
+
+                    {
+                        val: "الطابق الخامس",
+                        text: "5. Kat"
+                    },
+
+                    {
+                        val: "الطابق السادس",
+                        text: "6. Kat"
+                    },
+
+                    {
+                        val: "الدرج المفرد",
+                        text: "Tekli Merdiven"
+                    },
+
+                    {
+                        val: "الدرج المزدوج",
+                        text: "Çiftli Merdiven"
+                    }
+
                 ],
+
                 tasks: [
-                    { val: "", text: "Görev Seçin", disabled: true },
-                    { val: "الصف", text: "Sınıf" },
-                    { val: "ساحة الطابق", text: "Kat Koridoru / Alanı" },
-                    { val: "حمامات الطابق", text: "Kat Tuvaletleri" },
-                    { val: "غرفة المعلمين", text: "Öğretmenler Odası" },
-                    { val: "بلكون", text: "Balkon" },
-                    { val: "غرفة التوجيه", text: "Rehberlik Odası" },
-                    { val: "المرسم", text: "Resim Atölyesi" },
-                    { val: "مختبر الحاسوب", text: "Bilgisayar Laboratuvarı" },
-                    { val: "المكتبة", text: "Kütüphane" },
-                    { val: "غرفة الألعاب", text: "Oyun Odası" },
-                    { val: "مختبر اللغة التركية", text: "Türkçe Laboratuvarı" },
-                    { val: "المعرض", text: "Sergi Alanı" },
-                    { val: "غرفة الطباعة", text: "Baskı / Fotokopi Odası" },
-                    { val: "الدرج المفرد", text: "Tekli Merdiven" },
-                    { val: "الدرج المزدوج", text: "Çiftli Merdiven" }
+
+                    {
+                        val: "",
+                        text: "Görev Seçin",
+                        disabled: true
+                    },
+
+                    {
+                        val: "الصف",
+                        text: "Sınıf"
+                    },
+
+                    {
+                        val: "ساحة الطابق",
+                        text: "Kat Koridoru / Alanı"
+                    },
+
+                    {
+                        val: "حمامات الطابق",
+                        text: "Kat Tuvaletleri"
+                    },
+
+                    {
+                        val: "غرفة المعلمين",
+                        text: "Öğretmenler Odası"
+                    },
+
+                    {
+                        val: "بلكون",
+                        text: "Balkon"
+                    },
+
+                    {
+                        val: "غرفة التوجيه",
+                        text: "Rehberlik Odası"
+                    },
+
+                    {
+                        val: "المرسم",
+                        text: "Resim Atölyesi"
+                    },
+
+                    {
+                        val: "مختبر الحاسوب",
+                        text: "Bilgisayar Laboratuvarı"
+                    },
+
+                    {
+                        val: "المكتبة",
+                        text: "Kütüphane"
+                    },
+
+                    {
+                        val: "غرفة الألعاب",
+                        text: "Oyun Odası"
+                    },
+
+                    {
+                        val: "مختبر اللغة التركية",
+                        text: "Türkçe Laboratuvarı"
+                    },
+
+                    {
+                        val: "المعرض",
+                        text: "Sergi Alanı"
+                    },
+
+                    {
+                        val: "غرفة الطباعة",
+                        text: "Baskı / Fotokopi Odası"
+                    },
+
+                    {
+                        val: "الدرج المفرد",
+                        text: "Tekli Merdiven"
+                    },
+
+                    {
+                        val: "الدرج المزدوج",
+                        text: "Çiftli Merdiven"
+                    }
+
                 ]
+
             }
+
         };
+
+
+
+        /*************************************************
+         * تعبئة القوائم المنسدلة
+         *************************************************/
 
         function populateSelect(selectId, items) {
-            const select = document.getElementById(selectId);
-            const currentVal = select.value;
+
+            const select =
+                document.getElementById(selectId);
+
+            const currentVal =
+                select.value;
+
+
             select.innerHTML = "";
-            items.forEach(item => {
-                const opt = document.createElement('option');
-                opt.value = item.val;
-                opt.textContent = item.text;
-                if (item.disabled) opt.disabled = true;
+
+
+            items.forEach(function(item) {
+
+                const opt =
+                    document.createElement("option");
+
+                opt.value =
+                    item.val;
+
+                opt.textContent =
+                    item.text;
+
+
+                if (item.disabled) {
+                    opt.disabled = true;
+                }
+
+
                 select.appendChild(opt);
+
             });
-            
-            // احتفاظ بالخيار المحدد إن وجد
-            const hasOption = Array.from(select.options).some(opt => opt.value === currentVal);
+
+
+            const hasOption =
+                Array.from(select.options)
+                    .some(
+                        opt =>
+                            opt.value === currentVal
+                    );
+
+
             if (hasOption) {
-                select.value = currentVal;
+
+                select.value =
+                    currentVal;
+
             } else {
-                select.selectedIndex = 0;
+
+                select.selectedIndex =
+                    0;
+
             }
+
         }
+
+
+
+        /*************************************************
+         * تحديث اللغة
+         *************************************************/
 
         function updateLanguageUI() {
-            const t = translations[currentLang];
 
-            document.getElementById('txt-header-title').innerText = t.headerTitle;
-            document.getElementById('txt-header-subtitle').innerText = t.headerSubtitle;
-            document.getElementById('txt-btn-main').innerText = t.btnMain;
-            document.getElementById('txt-btn-upload').innerText = t.btnUpload;
-            
-            const submitBtn = document.getElementById('submit-btn');
-            if(!isSubmitting) {
-                submitBtn.innerText = t.btnSubmit;
-            } else {
-                submitBtn.innerText = t.btnSubmitting;
-            }
+            const t =
+                translations[currentLang];
 
-            document.getElementById('supervisor-name').placeholder = t.supervisorPlaceholder;
-            document.getElementById('students-names').placeholder = t.studentsPlaceholder;
-            document.getElementById('custom-note').placeholder = t.customNotePlaceholder;
-            document.getElementById('lang-btn').innerText = currentLang === 'ar' ? 'TR' : 'AR';
 
-            populateSelect('shift-select', t.shifts);
-            populateSelect('location-select', t.locations);
-            populateSelect('task-select', t.tasks);
+            document.getElementById(
+                "txt-header-title"
+            ).innerText =
+                t.headerTitle;
 
-            updatePreviewUI();
-        }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'tr' : 'ar';
-            updateLanguageUI();
-        }
+            document.getElementById(
+                "txt-header-subtitle"
+            ).innerText =
+                t.headerSubtitle;
 
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
-            document.getElementById(pageId).classList.add('active-page');
-        }
 
-        function handleFileSelect(event) {
-            const t = translations[currentLang];
-            const files = Array.from(event.target.files);
-            
-            for (let file of files) {
-                if (selectedFiles.length >= 10) {
-                    alert(t.msgMaxFiles);
-                    break;
-                }
-                selectedFiles.push(file);
-            }
+            document.getElementById(
+                "txt-btn-main"
+            ).innerText =
+                t.btnMain;
 
-            event.target.value = "";
-            updatePreviewUI();
-        }
 
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updatePreviewUI();
-        }
+            document.getElementById(
+                "txt-btn-upload"
+            ).innerText =
+                t.btnUpload;
 
-        function updatePreviewUI() {
-            const t = translations[currentLang];
-            const countLabel = document.getElementById('file-count');
-            const grid = document.getElementById('preview-grid');
-            
-            countLabel.innerText = selectedFiles.length > 0 
-                ? t.fileCountText(selectedFiles.length)
-                : t.fileCountZero;
 
-            grid.innerHTML = "";
-            selectedFiles.forEach((file, index) => {
-                const itemContainer = document.createElement('div');
-                itemContainer.className = 'preview-item';
-
-                const img = document.createElement('img');
-                
-                // قراءة الصورة للمعاينة الآمنة بدون تسريب الذاكرة
-                const reader = new FileReader();
-                reader.onload = (e) => { img.src = e.target.result; };
-                reader.readAsDataURL(file);
-
-                const removeBtn = document.createElement('button');
-                removeBtn.className = 'remove-btn';
-                removeBtn.innerHTML = '✕';
-                removeBtn.onclick = () => removeFile(index);
-
-                itemContainer.appendChild(img);
-                itemContainer.appendChild(removeBtn);
-                grid.appendChild(itemContainer);
-            });
-        }
-
-        function resizeImage(file, maxWidth = 800, quality = 0.5) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > maxWidth) {
-                            height = Math.round((height * maxWidth) / width);
-                            width = maxWidth;
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-
-                        resolve({
-                            name: file.name,
-                            type: 'image/jpeg',
-                            data: canvas.toDataURL('image/jpeg', quality)
-                        });
-                    };
-                };
-            });
-        }
-
-  
-        async function uploadDataToDrive() {
-            const t = translations[currentLang];
-
-            const supervisor = document.getElementById('supervisor-name').value.trim();
-            const students = document.getElementById('students-names').value.trim();
-            const shift = document.getElementById('shift-select').value;
-            const location = document.getElementById('location-select').value;
-            const task = document.getElementById('task-select').value;
-
-            if (!supervisor || !students || !shift || !location || !task) {
-                alert(t.msgFillFields);
-                return;
-            }
-
-            if (selectedFiles.length === 0) {
-                alert(t.msgNoFiles);
-                return;
-            }
-
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerText = t.btnSubmitting;
-
-            try {
-                const compressedFiles = await Promise.all(
-                    selectedFiles.map(file => resizeImage(file))
+            const submitBtn =
+                document.getElementById(
+                    "submit-btn"
                 );
 
-                const payload = {
-                    supervisor: supervisor,
-                    students: students,
-                    shift: shift,
-                    location: location,
-                    task: task,
-                    note: document.getElementById('custom-note').value,
-                    files: compressedFiles
-                };
 
-                document.getElementById('payload-input').value = JSON.stringify(payload);
-                isSubmitting = true;
+            if (!isSubmitting) {
 
-                document.getElementById('hidden-form').submit();
+                submitBtn.innerText =
+                    t.btnSubmit;
 
-            } catch (err) {
-                console.error(err);
-                alert(t.msgError);
-                submitBtn.disabled = false;
-                submitBtn.innerText = t.btnSubmit;
-                isSubmitting = false;
+            } else {
+
+                submitBtn.innerText =
+                    t.btnSubmitting;
+
             }
-        }
 
-        function onUploadComplete() {
-            const t = translations[currentLang];
-            alert(t.msgSuccess);
-            isSubmitting = false;
-            selectedFiles = [];
-            
-            // تفريغ حقول الإدخال وإعادة ضبط الخيارات
-            document.getElementById('supervisor-name').value = '';
-            document.getElementById('students-names').value = '';
-            document.getElementById('custom-note').value = '';
-            document.getElementById('shift-select').selectedIndex = 0;
-            document.getElementById('location-select').selectedIndex = 0;
-            document.getElementById('task-select').selectedIndex = 0;
+
+            document.getElementById(
+                "supervisor-name"
+            ).placeholder =
+                t.supervisorPlaceholder;
+
+
+            document.getElementById(
+                "students-names"
+            ).placeholder =
+                t.studentsPlaceholder;
+
+
+            document.getElementById(
+                "custom-note"
+            ).placeholder =
+                t.customNotePlaceholder;
+
+
+            document.getElementById(
+                "lang-btn"
+            ).innerText =
+                currentLang === "ar"
+                    ? "TR"
+                    : "AR";
+
+
+            populateSelect(
+                "shift-select",
+                t.shifts
+            );
+
+
+            populateSelect(
+                "location-select",
+                t.locations
+            );
+
+
+            populateSelect(
+                "task-select",
+                t.tasks
+            );
+
 
             updatePreviewUI();
-            
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = false;
-            submitBtn.innerText = t.btnSubmit;
-            navigateTo('home-page');
+
         }
 
-        window.onload = function() {
+
+
+        /*************************************************
+         * تبديل اللغة
+         *************************************************/
+
+        function toggleLanguage() {
+
+            currentLang =
+                currentLang === "ar"
+                    ? "tr"
+                    : "ar";
+
+
             updateLanguageUI();
-        };
+
+        }
+
+
+
+        /*************************************************
+         * الانتقال بين الصفحات
+         *************************************************/
+
+        function navigateTo(pageId) {
+
+            document
+                .querySelectorAll(".page")
+                .forEach(function(page) {
+
+                    page.classList.remove(
+                        "active-page"
+                    );
+
+                });
+
+
+            document
+                .getElementById(pageId)
+                .classList.add(
+                    "active-page"
+                );
+
+        }
+
+
+
+        /*************************************************
+         * اختيار الصور
+         *************************************************/
+
+        function handleFileSelect(event) {
+
+            const t =
+                translations[currentLang];
+
+
+            const files =
+                Array.from(
+                    event.target.files
+                );
+
+
+            for (let file of files) {
+
+                if (
+                    selectedFiles.length >= 10
+                ) {
+
+                    alert(
+                        t.msgMaxFiles
+                    );
+
+                    break;
+
+                }
+
+
+                selectedFiles.push(file);
+
+            }
+
+
+            // السماح باختيار نفس الصورة مرة أخرى
+            event.target.value = "";
+
+
+            updatePreviewUI();
+
+        }
+
+
+
+        /*************************************************
+         * حذف صورة
+         *************************************************/
+
+        function removeFile(index) {
+
+            selectedFiles.splice(
+                index,
+                1
+            );
+
+
+            updatePreviewUI();
+
+        }
+
+
+
+        /*************************************************
+         * تحديث معاينة الصور
+         *************************************************/
+
+        function updatePreviewUI() {
+
+            const t =
+                translations[currentLang];
+
+
+            const countLabel =
+                document.getElementById(
+                    "file-count"
+                );
+
+
+            const grid =
+                document.getElementById(
+                    "preview-grid"
+                );
+
+
+            countLabel.innerText =
+                selectedFiles.length > 0
+
+                    ? t.fileCountText(
+                        selectedFiles.length
+                    )
+
+                    : t.fileCountZero;
+
+
+            grid.innerHTML = "";
+
+
+            selectedFiles.forEach(
+                function(file, index) {
+
+
+                    const itemContainer =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    itemContainer.className =
+                        "preview-item";
+
+
+                    const img =
+                        document.createElement(
+                            "img"
+                        );
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(e) {
+
+                            img.src =
+                                e.target.result;
+
+                        };
+
+
+                    reader.readAsDataURL(
+                        file
+                    );
+
+
+                    const removeBtn =
+                        document.createElement(
+                            "button"
+                        );
+
+
+                    removeBtn.className =
+                        "remove-btn";
+
+
+                    removeBtn.innerHTML =
+                        "✕";
+
+
+                    removeBtn.onclick =
+                        function() {
+
+                            removeFile(index);
+
+                        };
+
+
+                    itemContainer.appendChild(
+                        img
+                    );
+
+
+                    itemContainer.appendChild(
+                        removeBtn
+                    );
+
+
+                    grid.appendChild(
+                        itemContainer
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /*************************************************
+         * ضغط الصور
+         *************************************************/
+
+        function resizeImage(
+            file,
+            maxWidth = 800,
+            quality = 0.5
+        ) {
+
+            return new Promise(
+                function(resolve, reject) {
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(event) {
+
+                            const img =
+                                new Image();
+
+
+                            img.onload =
+                                function() {
+
+                                    let width =
+                                        img.width;
+
+                                    let height =
+                                        img.height;
+
+
+                                    if (
+                                        width >
+                                        maxWidth
+                                    ) {
+
+                                        height =
+                                            Math.round(
+                                                (
+                                                    height *
+                                                    maxWidth
+                                                ) /
+                                                width
+                                            );
+
+                                        width =
+                                            maxWidth;
+
+                                    }
+
+
+                                    const canvas =
+                                        document.createElement(
+                                            "canvas"
+                                        );
+
+
+                                    canvas.width =
+                                        width;
+
+                                    canvas.height =
+                                        height;
+
+
+                                    const ctx =
+                                        canvas.getContext(
+                                            "2d"
+                                        );
+
+
+                                    ctx.drawImage(
+                                        img,
+                                        0,
+                                        0,
+                                        width,
+                                        height
+                                    );
+
+
+                                    resolve({
+
+                                        name:
+                                            file.name,
+
+                                        type:
+                                            "image/jpeg",
+
+                                        data:
+                                            canvas.toDataURL(
+                                                "image/jpeg",
+                                                quality
+                                            )
+
+                                    });
+
+                                };
+
+
+                            img.onerror =
+                                function() {
+
+                                    reject(
+                                        new Error(
+                                            "تعذر قراءة الصورة"
+                                        )
+                                    );
+
+                                };
+
+
+                            img.src =
+                                event.target.result;
+
+                        };
+
+
+                    reader.onerror =
+                        function() {
+
+                            reject(
+                                new Error(
+                                    "تعذر قراءة الملف"
+                                )
+                            );
+
+                        };
+
+
+                    reader.readAsDataURL(
+                        file
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /*************************************************
+         * إرسال البيانات إلى Google Drive
+         *************************************************/
+
+        async function uploadDataToDrive() {
+
+            const t =
+                translations[currentLang];
+
+
+            /*********************************************
+             * قراءة البيانات
+             *********************************************/
+
+            const supervisor =
+                document
+                    .getElementById(
+                        "supervisor-name"
+                    )
+                    .value
+                    .trim();
+
+
+            const students =
+                document
+                    .getElementById(
+                        "students-names"
+                    )
+                    .value
+                    .trim();
+
+
+            const shift =
+                document
+                    .getElementById(
+                        "shift-select"
+                    )
+                    .value;
+
+
+            const location =
+                document
+                    .getElementById(
+                        "location-select"
+                    )
+                    .value;
+
+
+            const task =
+                document
+                    .getElementById(
+                        "task-select"
+                    )
+                    .value;
+
+
+            /*********************************************
+             * التحقق من الحقول المطلوبة
+             *********************************************/
+
+            if (
+                !supervisor ||
+                !students ||
+                !shift ||
+                !location ||
+                !task
+            ) {
+
+                alert(
+                    t.msgFillFields
+                );
+
+                return;
+
+            }
+
+
+            /*********************************************
+             * التأكد من وجود صورة واحدة على الأقل
+             *********************************************/
+
+            if (
+                selectedFiles.length === 0
+            ) {
+
+                alert(
+                    t.msgNoFiles
+                );
+
+                return;
+
+            }
+
+
+            /*********************************************
+             * منع الضغط المتكرر
+             *********************************************/
+
+            if (isSubmitting) {
+                return;
+            }
+
+
+            const submitBtn =
+                document.getElementById(
+                    "submit-btn"
+                );
+
+
+            isSubmitting = true;
+
+            submitBtn.disabled = true;
+
+            submitBtn.innerText =
+                t.btnSubmitting;
+
+
+            try {
+
+
+                /*****************************************
+                 * ضغط الصور
+                 *****************************************/
+
+                const compressedFiles =
+                    await Promise.all(
+
+                        selectedFiles.map(
+                            function(file) {
+
+                                return resizeImage(
+                                    file
+                                );
+
+                            }
+                        )
+
+                    );
+
+
+                /*****************************************
+                 * تجهيز البيانات
+                 *****************************************/
+
+                const payload = {
+
+                    supervisor:
+                        supervisor,
+
+                    students:
+                        students,
+
+                    shift:
+                        shift,
+
+                    location:
+                        location,
+
+                    task:
+                        task,
+
+                    note:
+                        document
+                            .getElementById(
+                                "custom-note"
+                            )
+                            .value
+                            .trim(),
+
+                    files:
+                        compressedFiles
+
+                };
+
+
+                /*****************************************
+                 * تحويل البيانات إلى JSON
+                 *****************************************/
+
+                const payloadInput =
+                    document.getElementById(
+                        "payload-input"
+                    );
+
+
+                payloadInput.value =
+                    JSON.stringify(
+                        payload
+                    );
+
+
+                /*****************************************
+                 * تحديد حالة الإرسال
+                 *****************************************/
+
+                isSubmitting = true;
+
+
+                /*****************************************
+                 * إرسال النموذج إلى Google Apps Script
+                 *****************************************/
+
+                document
+                    .getElementById(
+                        "hidden-form"
+                    )
+                    .submit();
+
+
+            }
+
+            catch (err) {
+
+                console.error(
+                    "Upload Error:",
+                    err
+                );
+
+
+                alert(
+                    t.msgError
+                );
+
+
+                isSubmitting = false;
+
+                submitBtn.disabled =
+                    false;
+
+                submitBtn.innerText =
+                    t.btnSubmit;
+
+            }
+
+        }
+
+
+
+        /*************************************************
+         * بعد اكتمال الإرسال
+         *************************************************/
+
+        function onUploadComplete() {
+
+            const t =
+                translations[currentLang];
+
+
+            alert(
+                t.msgSuccess
+            );
+
+
+            isSubmitting =
+                false;
+
+
+            selectedFiles =
+                [];
+
+
+            /*********************************************
+             * تنظيف البيانات
+             *********************************************/
+
+            document.getElementById(
+                "supervisor-name"
+            ).value = "";
+
+
+            document.getElementById(
+                "students-names"
+            ).value = "";
+
+
+            document.getElementById(
+                "custom-note"
+            ).value = "";
+
+
+            document.getElementById(
+                "shift-select"
+            ).selectedIndex = 0;
+
+
+            document.getElementById(
+                "location-select"
+            ).selectedIndex = 0;
+
+
+            document.getElementById(
+                "task-select"
+            ).selectedIndex = 0;
+
+
+            updatePreviewUI();
+
+
+            const submitBtn =
+                document.getElementById(
+                    "submit-btn"
+                );
+
+
+            submitBtn.disabled =
+                false;
+
+
+            submitBtn.innerText =
+                t.btnSubmit;
+
+
+            navigateTo(
+                "home-page"
+            );
+
+        }
+
+
+
+        /*************************************************
+         * تشغيل الصفحة
+         *************************************************/
+
+        window.onload =
+            function() {
+
+                updateLanguageUI();
+
+            };
+
+
     </script>
+
 </body>
+
 </html>
